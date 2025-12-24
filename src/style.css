@@ -87,19 +87,17 @@ header {
     align-items: center;
 }
 
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-    }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
 
-    .logo-img {
-        height: 50px;
-        /* ajusta conforme quiser */
-        width: auto;
-    }
-
+.logo-img {
+    height: 50px;
+    width: auto;
+}
 
 nav ul {
     display: flex;
@@ -123,6 +121,17 @@ nav a i {
     margin-right: 5px;
 }
 
+/* Botão Mobile (Padrão: Escondido) */
+.mobile-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark);
+    margin-right: 10px;
+}
+
 /* --- HERO SECTION --- */
 .hero {
     padding: 160px 0 100px 0;
@@ -143,6 +152,7 @@ nav a i {
     margin-bottom: 24px;
 }
 
+/* Mantive caso você mude de ideia, mas não estamos usando no HTML agora */
 .gradient-text {
     background: linear-gradient(to right, var(--primary), var(--secondary));
     -webkit-background-clip: text;
@@ -284,6 +294,10 @@ footer {
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
+    .mobile-toggle {
+        display: block; /* Mostra o botão no mobile */
+    }
+
     .hero {
         flex-direction: column;
         text-align: center;
@@ -295,9 +309,33 @@ footer {
         font-size: 2.5rem;
     }
 
+    /* Menu Mobile (Comportamento Slide) */
     .nav-menu {
-        display: none; 
-        /* Se quiser menu mobile, precisa de um pouquinho de JS */
+        display: block;
+        position: fixed;
+        top: 90px;
+        left: -100%; /* Esconde na esquerda */
+        width: 100%;
+        height: calc(100vh - 90px);
+        background-color: var(--white);
+        padding: 40px;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .nav-menu.active {
+        left: 0; /* Entra na tela */
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .nav-menu a {
+        font-size: 1.2rem;
     }
     
     .footer-content {
