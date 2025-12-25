@@ -144,4 +144,56 @@
     .hero h1 {
         font-size: 2.5rem;
     }
+
+    .hero-image { perspective: 1800px; }
+
+.laptop{
+  width: min(720px, 90vw);
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* tampa (começa “fechada”) */
+.laptop__lid{
+  position: relative;
+  transform-origin: 50% 100%;
+  transform: rotateX(-82deg);
+  transition: transform 1100ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+
+/* quando entrar na tela, “abre” */
+.js-laptop.is-inview .laptop__lid{
+  transform: rotateX(-12deg);
+}
+
+.laptop__top{
+  width: 100%;
+  display: block;
+  backface-visibility: hidden;
+}
+
+/* tela encaixada na tampa (ajuste fino depois) */
+.laptop__screen{
+  position: absolute;
+  left: 8%;
+  top: 10%;
+  width: 84%;
+  height: 72%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* base */
+.laptop__bottom{
+  width: 100%;
+  display: block;
+  transform: translateY(-10%);
+}
+
+/* acessibilidade: respeita reduzir movimento */
+@media (prefers-reduced-motion: reduce){
+  .laptop__lid{ transition: none; transform: rotateX(-12deg); }
+}
+
 }

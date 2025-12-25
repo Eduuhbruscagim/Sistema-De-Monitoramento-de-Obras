@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transparência Cidadã - Monitoramento de Obras</title>
+    <title>Gestão Inteligente de Condomínios</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,8 @@
     <header>
         <div class="container nav-wrapper">
             <a href="#" class="logo">
-              <img src="imagens/Logo.webp" alt="Logo do Sistema" class="logo-img">
+              <img src="imagens/Logo.webp" alt="Logo" class="logo-img">
+              <span style="font-weight: 700; color: var(--dark); margin-left: 8px;"></span>
             </a>
 
             <button class="mobile-toggle">
@@ -25,10 +27,10 @@
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html">Início</a></li>
-                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#funcionalidades">Funcionalidades</a></li>
                     <li><a href="#recursos">Recursos</a></li>
-                    <li><a href="#arquitetura"><i class="fa-solid fa-layer-group"></i> Arquitetura</a></li>
-                    <li><a href="#repo"><i class="fa-brands fa-github"></i> Repositório</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="#" class="btn btn-primary" style="padding: 8px 16px; color: white;">Área do Síndico</a></li>
                 </ul>
             </nav>
         </div>
@@ -36,48 +38,48 @@
 
     <section id="inicio" class="hero container">
         <div class="hero-content">
-            <h1>Acompanhe e Fiscalize as Obras Públicas da Sua Cidade.</h1>
-            <p>Sistema fácil e transparente para ver o progresso das obras em tempo real, garantindo que sejam feitas sem atrasos e sem desvios.</p>
+            <h1>Acompanhe as Manutenções e Gastos do Seu Condomínio</span></h1>
+            <p>Fim das brigas em grupos. Tenha acesso total ao orçamento, reserve áreas, receba encomendas e registre ocorrências direto pelo sistema.</p>
             <div class="cta-group">
-                <a href="#" class="btn btn-primary">Começar a Fiscalizar</a>
-                <a href="#" class="btn btn-outline">Ver Arquitetura</a>
+                <a href="#" class="btn btn-primary">Sou Morador</a>
+                <a href="#" class="btn btn-outline">Sou Síndico</a>
             </div>
         </div>
         <div class="hero-image">
-            <img src="imagens/Dashboard.webp" alt="Dashboard do Sistema no Tablet" class="tablet-mockup">
+            <img src="imagens/Dashboard.webp" alt="Painel do Condomínio" class="tablet-mockup">
         </div>
     </section>
 
-    <section id="como-funciona" class="how-it-works">
+    <section id="funcionalidades" class="how-it-works">
         <div class="container">
             <div class="section-header">
-                <h2>Como Funciona</h2>
-                <p>Transparência em três passos simples.</p>
+                <h2>Gestão Transparente</h2>
+                <p>Tudo o que você precisa sem interfonar na portaria.</p>
             </div>
 
             <div class="steps-grid">
                 <div class="step-card">
                     <div class="icon-circle">
-                        <i class="fa-regular fa-eye"></i>
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
                     </div>
-                    <h3>1. Veja dados reais</h3>
-                    <p>Acesse fotos atualizadas, contratos e medições diretas do diário oficial.</p>
+                    <h3>1. Prestação de Contas</h3>
+                    <p>Veja para onde vai a taxa de condomínio com gráficos simples e acesso às notas fiscais.</p>
                 </div>
                 
                 <div class="step-card">
                     <div class="icon-circle">
-                        <i class="fa-solid fa-chart-line"></i>
+                        <i class="fa-solid fa-calendar-days"></i>
                     </div>
-                    <h3>2. Entenda o progresso</h3>
-                    <p>Gráficos mostram se o dinheiro está sendo gasto conforme o cronograma.</p>
+                    <h3>2. Reservas Online</h3>
+                    <p>Agende áreas em segundos e receba a confirmação na hora.</p>
                 </div>
 
                 <div class="step-card">
                     <div class="icon-circle">
-                        <i class="fa-solid fa-bullhorn"></i>
+                        <i class="fa-solid fa-clipboard-list"></i>
                     </div>
-                    <h3>3. Cobre e Denuncie</h3>
-                    <p>Encontrou algo errado? Abra um chamado direto para a controladoria.</p>
+                    <h3>3. Livro de Ocorrências</h3>
+                    <p>Barulho ou lâmpada queimada? Abra um chamado e acompanhe pelo sistema.</p>
                 </div>
             </div>
         </div>
@@ -85,33 +87,33 @@
 
     <section id="recursos" class="features container">
         <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-            <h2>Recursos Principais</h2>
-            <p>Ferramentas para o cidadão e para o governo.</p>
+            <h2>Recursos Essenciais</h2>
+            <p>Tecnologia para síndicos e moradores.</p>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                <h3>Mapa de Obras</h3>
-                <p>Geolocalização precisa de todas as intervenções públicas perto da sua casa ou trabalho.</p>
+                <div class="feature-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                <h3>Orçamento em Tempo Real</h3>
+                <p style="color: var(--text-light);">Integração bancária para mostrar o saldo do fundo de reserva atualizado.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                <h3>Gastos e Prazos</h3>
-                <p>Dashboards financeiros que cruzam o valor empenhado com o progresso físico da obra.</p>
+                <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                <h3>Comunicados Digitais</h3>
+                <p style="color: var(--text-light);">Chega de ser incomodado de surpresa. Receba avisos de obras e manutenções via notificação.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-regular fa-bell"></i></div>
-                <h3>Alertas de Atraso</h3>
-                <p>Receba notificações automáticas quando uma obra parar ou estourar o orçamento previsto.</p>
+                <div class="feature-icon"><i class="fa-solid fa-box-open"></i></div>
+                <h3>Gestão de Encomendas</h3>
+                <p style="color: var(--text-light);">Receba um aviso no celular assim que sua compra chegar na portaria.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-regular fa-flag"></i></div>
-                <h3>Canal de Denúncia</h3>
-                <p>Reporte problemas com fotos e localização anônima diretamente pelo sistema.</p>
+                <div class="feature-icon"><i class="fa-solid fa-shield-cat"></i></div>
+                <h3>Controle de Acesso</h3>
+                <p style="color: var(--text-light);">Libere a entrada de visitantes e prestadores de serviço enviando um QR Code temporário.</p>
             </div>
         </div>
     </section>
@@ -119,16 +121,16 @@
     <footer>
         <div class="container footer-content">
             <a href="#" class="logo">
-                <img src="imagens/Logo.webp" alt="Transparência Cidadã" class="logo-img">
+                <img src="imagens/Logo.webp" alt="Logo" class="logo-img">
+                <span style="font-weight: 700; margin-left: 10px;"></span>
             </a>
 
             <div class="copyright">
-                © 2025 Transparência Cidadã. Código Open Source (MIT).
+                © 2025 Sistema de Monitoramento de Condomínio.
             </div>
             <div class="footer-links">
-                <a href="#">Sobre o Projeto</a>
-                <a href="#" class="btn-copy" data-email="eduguilhermebruscagim@gmail.com">Contato</a>
-            </div>
+                <a href="sobre.html">Sobre</a>
+                <a href="#" class="btn-copy" data-email="eduguilhermebruscagim@gmail.com">Contato Comercial</a>
             </div>
         </div>
     </footer>
@@ -141,7 +143,6 @@
         if(mobileBtn && navMenu) {
             mobileBtn.addEventListener('click', () => {
                 navMenu.classList.toggle('active');
-                // Troca o ícone (Hamburger <-> X)
                 const icon = mobileBtn.querySelector('i');
                 if (navMenu.classList.contains('active')) {
                     icon.classList.remove('fa-bars');
@@ -158,21 +159,18 @@
 
         if(copyBtn) {
             copyBtn.addEventListener('click', (e) => {
-                e.preventDefault(); // Não deixa a tela pular
+                e.preventDefault();
                 
                 const email = copyBtn.getAttribute('data-email');
                 const originalText = copyBtn.innerText;
 
-                // Copia para a área de transferência
                 navigator.clipboard.writeText(email).then(() => {
-                    // Feedback visual
                     copyBtn.innerText = "Email Copiado!";
                     copyBtn.style.color = "#6b7280";
                     
-                    // Reseta depois de 2 segundos
                     setTimeout(() => {
                         copyBtn.innerText = originalText;
-                        copyBtn.style.backgroundColor = ""; // Volta ao original
+                        copyBtn.style.backgroundColor = "";
                         copyBtn.style.color = "";
                     }, 2000);
                 }).catch(err => {
