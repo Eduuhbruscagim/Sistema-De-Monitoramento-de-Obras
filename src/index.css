@@ -32,18 +32,24 @@
     position: relative;
 }
 
-/* TABLET MOCKUP */
-.tablet-mockup {
+.laptop-mockup {
     width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    border: 8px solid #e5e7eb;
-    transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
-    transition: transform 0.5s ease;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    outline: 1px solid transparent;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.25));
+    transform: perspective(2000px) rotateY(-6deg) rotateX(3deg) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.hero-image:hover .tablet-mockup {
-    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+/* Estado de Hover*/
+.hero-image:hover .laptop-mockup {
+    transform: perspective(2000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+    filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.35));
 }
 
 /* COMO FUNCIONA */
@@ -145,55 +151,16 @@
         font-size: 2.5rem;
     }
 
-    .hero-image { perspective: 1800px; }
+    .hero-image {
+        perspective: 1800px;
+    }
 
-.laptop{
-  width: min(720px, 90vw);
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-/* tampa (começa “fechada”) */
-.laptop__lid{
-  position: relative;
-  transform-origin: 50% 100%;
-  transform: rotateX(-82deg);
-  transition: transform 1100ms cubic-bezier(.2,.8,.2,1);
-  will-change: transform;
-}
-
-/* quando entrar na tela, “abre” */
-.js-laptop.is-inview .laptop__lid{
-  transform: rotateX(-12deg);
-}
-
-.laptop__top{
-  width: 100%;
-  display: block;
-  backface-visibility: hidden;
-}
-
-/* tela encaixada na tampa (ajuste fino depois) */
-.laptop__screen{
-  position: absolute;
-  left: 8%;
-  top: 10%;
-  width: 84%;
-  height: 72%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-/* base */
-.laptop__bottom{
-  width: 100%;
-  display: block;
-  transform: translateY(-10%);
-}
-
-/* acessibilidade: respeita reduzir movimento */
-@media (prefers-reduced-motion: reduce){
-  .laptop__lid{ transition: none; transform: rotateX(-12deg); }
-}
+    /* acessibilidade: respeita reduzir movimento */
+    @media (prefers-reduced-motion: reduce) {
+        .laptop__lid {
+            transition: none;
+            transform: rotateX(-12deg);
+        }
+    }
 
 }

@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Sistema de gestão inteligente para condomínios. Controle de acesso, reservas e financeiro em um só lugar.">
+    <meta property="og:title" content="Gestão Inteligente de Condomínios">
+    <meta property="og:description" content="Modernize a gestão do seu condomínio com transparência e tecnologia.">
+    <meta property="og:image" content="imagens/Mac.png">
+    
     <title>Gestão Inteligente de Condomínios</title>
+    
+    <link rel="shortcut icon" href="imagens/Logo.webp" type="image/webp">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="index.css">
 </head>
@@ -17,11 +26,10 @@
     <header>
         <div class="container nav-wrapper">
             <a href="#" class="logo">
-              <img src="imagens/Logo.webp" alt="Logo" class="logo-img">
-              <span style="font-weight: 700; color: var(--dark); margin-left: 8px;"></span>
+              <img src="imagens/Logo.webp" alt="Logo do Sistema de Condomínio" class="logo-img">
             </a>
 
-            <button class="mobile-toggle">
+            <button class="mobile-toggle" aria-label="Abrir Menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <nav class="nav-menu">
@@ -30,7 +38,7 @@
                     <li><a href="#funcionalidades">Funcionalidades</a></li>
                     <li><a href="#recursos">Recursos</a></li>
                     <li><a href="sobre.html">Sobre</a></li>
-                    <li><a href="#" class="btn btn-primary" style="padding: 8px 16px; color: white;">Área do Síndico</a></li>
+                    <li><a href="login.html" class="btn btn-primary" style="padding: 8px 16px; color: white;">Área do Síndico</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,15 +46,15 @@
 
     <section id="inicio" class="hero container">
         <div class="hero-content">
-            <h1>Acompanhe as Manutenções e Gastos do Seu Condomínio</span></h1>
+            <h1>Acompanhe as Manutenções e Gastos do Seu Condomínio</h1>
             <p>Fim das brigas em grupos. Tenha acesso total ao orçamento, reserve áreas, receba encomendas e registre ocorrências direto pelo sistema.</p>
             <div class="cta-group">
-                <a href="#" class="btn btn-primary">Sou Morador</a>
-                <a href="#" class="btn btn-outline">Sou Síndico</a>
+                <a href="login.html" class="btn btn-primary">Sou Morador</a>
+                <a href="login.html" class="btn btn-outline">Sou Síndico</a>
             </div>
         </div>
         <div class="hero-image">
-            <img src="imagens/Dashboard.webp" alt="Painel do Condomínio" class="tablet-mockup">
+            <img src="imagens/Mac.png" alt="Demonstração do Painel Administrativo em um Tablet" class="laptop-mockup">
         </div>
     </section>
 
@@ -121,12 +129,11 @@
     <footer>
         <div class="container footer-content">
             <a href="#" class="logo">
-                <img src="imagens/Logo.webp" alt="Logo" class="logo-img">
-                <span style="font-weight: 700; margin-left: 10px;"></span>
+                <img src="imagens/Logo.webp" alt="Logo do Sistema" class="logo-img">
             </a>
 
             <div class="copyright">
-                © 2025 Sistema de Monitoramento de Condomínio.
+                © 2025 Sistema de Monitoramento de Condomínios.
             </div>
             <div class="footer-links">
                 <a href="sobre.html">Sobre</a>
@@ -136,7 +143,7 @@
     </footer>
 
     <script>
-        // --- 1. SCRIPT DO MENU MOBILE ---
+        // SCRIPT DO BOTÃO DE MENU MOBILE E DO BOTÃO DE COPIAR EMAIL
         const mobileBtn = document.querySelector('.mobile-toggle');
         const navMenu = document.querySelector('.nav-menu');
 
@@ -154,7 +161,6 @@
             });
         }
 
-        // --- 2. SCRIPT DE COPIAR EMAIL ---
         const copyBtn = document.querySelector('.btn-copy');
 
         if(copyBtn) {
