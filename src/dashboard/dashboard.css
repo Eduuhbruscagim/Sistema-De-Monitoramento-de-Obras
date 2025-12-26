@@ -1,11 +1,15 @@
-/* --- dashboard.css (Light Apple Glass + Mobile Fix REAL) --- */
-
+/* --------------------------------------------------------------------------
+   1. VARIÁVEIS GLOBAIS & CONFIGURAÇÕES
+   -------------------------------------------------------------------------- */
 :root {
     --sidebar-width: 280px;
     --radius: 24px;
-    --glass-bg: rgba(255, 255, 255, 0.65); /* Branco translúcido */
-    --glass-border: rgba(255, 255, 255, 0.8); /* Borda de luz */
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); /* Sombra difusa premium */
+    
+    /* Configuração do Vidro (Original Light) */
+    --glass-bg: rgba(255, 255, 255, 0.65);      /* Branco translúcido */
+    --glass-border: rgba(255, 255, 255, 0.8);   /* Borda de luz */
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); /* Sombra difusa */
+    
     --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
 
@@ -25,7 +29,9 @@ body {
     gap: 40px;
 }
 
-/* --- MIXIN VIDRO --- */
+/* --------------------------------------------------------------------------
+   2. UTILITÁRIOS (Mixins)
+   -------------------------------------------------------------------------- */
 .glass-effect {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -34,15 +40,20 @@ body {
     box-shadow: var(--glass-shadow);
 }
 
-/* --- SIDEBAR --- */
+/* --------------------------------------------------------------------------
+   3. SIDEBAR (Barra Lateral)
+   -------------------------------------------------------------------------- */
 .sidebar {
     width: var(--sidebar-width);
+    
+    /* Aplicação do Vidro */
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
     
+    /* Posicionamento */
     position: sticky;
     top: 30px;
     height: calc(100vh - 60px);
@@ -61,9 +72,10 @@ body {
 
 .sidebar-logo {
     height: 48px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
+/* Menu de Navegação */
 .sidebar-menu {
     display: flex;
     flex-direction: column;
@@ -98,6 +110,7 @@ body {
     box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
 }
 
+/* Rodapé da Sidebar */
 .sidebar-footer {
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     padding-top: 20px;
@@ -105,8 +118,13 @@ body {
 }
 
 .menu-item.logout { color: #ef4444; }
-.menu-item.logout:hover { background-color: #fef2f2; color: #dc2626; transform: none; }
+.menu-item.logout:hover {
+    background-color: #fef2f2;
+    color: #dc2626;
+    transform: none;
+}
 
+/* Mini Perfil do Usuário */
 .user-profile-mini {
     display: flex;
     align-items: center;
@@ -118,7 +136,10 @@ body {
     margin-top: 15px;
     transition: 0.2s;
 }
-.user-profile-mini:hover { background: rgba(255, 255, 255, 0.8); }
+
+.user-profile-mini:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
 
 .avatar-circle {
     width: 42px;
@@ -131,15 +152,26 @@ body {
     justify-content: center;
     font-weight: 700;
     font-size: 0.95rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
 }
 
-.user-info strong { font-size: 0.95rem; color: #1e293b; display: block; letter-spacing: -0.3px;}
-.user-info small { font-size: 0.8rem; color: #64748b; font-weight: 500;}
+.user-info strong {
+    font-size: 0.95rem;
+    color: #1e293b;
+    display: block;
+    letter-spacing: -0.3px;
+}
 
+.user-info small {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
 
-/* --- CONTEÚDO PRINCIPAL --- */
+/* --------------------------------------------------------------------------
+   4. CONTEÚDO PRINCIPAL (Main Content)
+   -------------------------------------------------------------------------- */
 .main-content {
     flex: 1;
     background: transparent;
@@ -147,6 +179,7 @@ body {
     min-width: 0;
 }
 
+/* Barra Superior */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -173,13 +206,17 @@ body {
     margin: 0;
 }
 
-.top-actions { display: flex; gap: 16px; }
+.top-actions {
+    display: flex;
+    gap: 16px;
+}
 
+/* Botões de Ação */
 .icon-btn, .btn-settings {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -210,17 +247,25 @@ body {
 .icon-btn:hover, .btn-settings:hover {
     background: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
     color: #2563eb;
 }
 
 .notification-dot {
-    position: absolute; top: 12px; right: 12px; width: 10px; height: 10px;
-    background: #ef4444; border-radius: 50%; border: 2px solid white;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid white;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-/* --- CARDS --- */
+/* --------------------------------------------------------------------------
+   5. CARDS DE ESTATÍSTICA (KPIs)
+   -------------------------------------------------------------------------- */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -245,9 +290,10 @@ body {
 .stat-card:hover {
     transform: translateY(-5px) scale(1.01);
     background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
+/* Ícones dos Cards */
 .icon-box {
     width: 64px;
     height: 64px;
@@ -256,7 +302,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
     flex-shrink: 0;
 }
 
@@ -264,15 +310,46 @@ body {
 .icon-box.purple { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: #9333ea; }
 .icon-box.green { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #16a34a; }
 
-.stat-label { color: #64748b; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.75rem;}
-.stat-value { font-size: 2rem; color: #0f172a; font-weight: 800; line-height: 1; letter-spacing: -1px;}
-.stat-change { font-size: 0.85rem; font-weight: 700; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px;}
+.stat-label {
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.stat-change {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
 .stat-change.positive { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
 .stat-change.orange { background: rgba(249, 115, 22, 0.1); color: #f97316; }
 .stat-change.text-light { background: rgba(100, 116, 139, 0.1); color: #64748b; }
 
+/* --------------------------------------------------------------------------
+   6. ATIVIDADE RECENTE
+   -------------------------------------------------------------------------- */
 .section-title {
-    font-size: 1.4rem; color: #0f172a; margin-bottom: 24px; font-weight: 700;
+    font-size: 1.4rem;
+    color: #0f172a;
+    margin-bottom: 24px;
+    font-weight: 700;
     padding-left: 10px;
 }
 
@@ -292,8 +369,9 @@ body {
     padding: 24px;
     border-radius: 24px;
     transition: all 0.2s;
-    border-bottom: 1px solid rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 }
+
 .activity-item:last-child { border-bottom: none; }
 .activity-item:hover { background-color: rgba(255, 255, 255, 0.5); }
 
@@ -307,20 +385,112 @@ body {
     color: white;
     flex-shrink: 0;
     font-size: 1.2rem;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
+
 .bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
 .bg-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
 
 .activity-info h4 { font-size: 1.05rem; color: #0f172a; margin-bottom: 4px; font-weight: 700; }
-.activity-info p { font-size: 0.95rem; color: #64748b; margin: 0; font-weight: 500;}
+.activity-info p { font-size: 0.95rem; color: #64748b; margin: 0; font-weight: 500; }
+
 .activity-time {
-    margin-left: auto; font-size: 0.8rem; color: #64748b; font-weight: 700;
-    background: rgba(255,255,255,0.6); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.5);
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     white-space: nowrap;
 }
 
-/* --- MOBILE FIX (FINAL) --- */
+/* --------------------------------------------------------------------------
+   7. ADICÃO TABELA PARA PAGINA DE MORADORES
+   -------------------------------------------------------------------------- */
+.table-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--glass-shadow);
+    overflow-x: auto; /* Scroll horizontal se a tabela for grande */
+}
+
+.glass-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Garante que não quebre em telas muito pequenas */
+}
+
+.glass-table th {
+    text-align: left;
+    padding: 16px;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.glass-table td {
+    padding: 16px;
+    color: #1e293b;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    vertical-align: middle;
+}
+
+.glass-table tr:last-child td {
+    border-bottom: none;
+}
+
+.glass-table tr:hover td {
+    background: rgba(255, 255, 255, 0.4); /* Highlight ao passar o mouse */
+}
+
+/* Elementos da Tabela */
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.status-ok { background: rgba(34, 197, 94, 0.1); color: #15803d; }
+.status-late { background: rgba(239, 68, 68, 0.1); color: #b91c1c; }
+
+.action-btn {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 8px;
+    transition: 0.2s;
+}
+.action-btn:hover { color: var(--primary); transform: scale(1.1); }
+
+/* --------------------------------------------------------------------------
+   8. MOBILE RESPONSIVENESS
+   -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
     .dashboard-container {
         flex-direction: column;
@@ -337,26 +507,24 @@ body {
         
         flex-direction: row;
         align-items: center;
-        /* MUDANÇA: Centraliza o menu já que o logo sumiu */
-        justify-content: center; 
+        justify-content: center; /* Centraliza itens */
         
         padding: 15px 10px;
         overflow-x: auto;
         scrollbar-width: none; 
         -ms-overflow-style: none;
     }
+    
     .sidebar::-webkit-scrollbar { display: none; }
 
-    /* MUDANÇA: Remove o Logo no Mobile */
-    .sidebar-header { 
-        display: none; 
-    }
+    /* Remove o Logo no Mobile */
+    .sidebar-header { display: none; }
     
     .sidebar-menu { 
         flex-direction: row; 
-        gap: 15px; /* Mais espaço entre os ícones para o dedo gordo */
+        gap: 15px; /* Espaço para toque */
         width: 100%;
-        justify-content: center; /* Garante que fiquem no meio */
+        justify-content: center;
     }
 
     /* Ícones maiores para toque */
@@ -365,8 +533,8 @@ body {
         border-radius: 14px;
         justify-content: center;
     }
-    .menu-item span { display: none; } /* Esconde texto do menu */
-    .menu-item i { margin: 0; font-size: 1.4rem; } /* Ícones maiores */
+    .menu-item span { display: none; } /* Esconde texto */
+    .menu-item i { margin: 0; font-size: 1.4rem; }
 
     .sidebar-footer { display: none; }
 
@@ -389,19 +557,231 @@ body {
         height: 50px;
         padding: 0; 
         justify-content: center; 
-        font-size: 0; /* Esconde o texto "Configurações" */
+        font-size: 0;
         gap: 0;
     }
     .btn-settings i { font-size: 1.2rem; }
 
     .main-content { padding: 0; }
-    .stats-grid { grid-template-columns: 1fr; gap: 15px; }
-    .stat-card { padding: 20px; }
     
+    .stats-grid { 
+        grid-template-columns: 1fr; 
+        gap: 15px; 
+    }
+    
+    .stat-card { padding: 20px; }
+
     .activity-item { 
         flex-direction: column; 
         align-items: flex-start; 
         gap: 12px;
     }
     .activity-time { margin-left: 0; }
+}
+
+/* --- SPA LOGIC (O Mágico do JS) --- */
+
+/* Esconde a seção que não está ativa */
+.view-section {
+    display: none;
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mostra a seção ativa */
+.view-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   9 - Mobile Tabela -> Card)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    
+    /* Remove o estilo de "container de tabela" */
+    .table-container {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        overflow: visible; /* Remove o scroll horizontal */
+    }
+
+    .glass-table {
+        display: block;
+        min-width: 0; /* Remove largura mínima */
+    }
+
+    /* Esconde o Cabeçalho da Tabela (<th>) */
+    .glass-table thead {
+        display: none; 
+    }
+
+    .glass-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Transforma a Linha (<tr>) em um Card */
+    .glass-table tr {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        
+        /* Estilo do Card (Hard Glass) */
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
+    }
+
+    /* Estiliza as Células (<td>) como linhas do card */
+    .glass-table td {
+        display: block;
+        padding: 8px 0;
+        border: none;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Ajustes Específicos por Coluna */
+    
+    /* Coluna 1: Usuário (Avatar + Nome) - Destaque no topo */
+    .glass-table td:nth-child(1) {
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding-bottom: 16px;
+        margin-bottom: 8px;
+    }
+
+    /* Coluna 2 (Unidade) e 3 (Contato): Adiciona Label Artificial */
+    .glass-table td:nth-child(2)::before { content: "Unidade: "; color: #64748b; font-weight: 600; font-size: 0.85rem; }
+    .glass-table td:nth-child(3)::before { content: "Contato: "; color: #64748b; font-weight: 600; font-size: 0.85rem; }
+    
+    /* Coluna 4 (Status): Alinha a badge */
+    .glass-table td:nth-child(4) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .glass-table td:nth-child(4)::before { content: "Situação do Pagamento: "; color: #64748b; font-weight: 600; font-size: 0.85rem; }
+
+    /* Coluna 5 (Ações): Flutua para o topo direito do Card */
+    .glass-table td:last-child {
+        position: absolute;
+        top: 24px;
+        right: 20px;
+        width: auto;
+        padding: 0;
+    }
+
+    /* Ajuste nos botões de ação para ficarem maiores no toque */
+    .action-btn {
+        font-size: 1.2rem;
+        padding: 10px;
+    }   
+}
+
+
+/* ==========================================================================
+   10 - MODAL POP UP (AGORA FORA DO MOBILE, FUNCIONA EM TUDO)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+
+    /* O SEGREDO DO SUMIÇO */
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-glass {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-glass {
+    transform: scale(1);
+}
+
+/* ESTILOS DOS INPUTS DO MODAL */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 0 12px;
+}
+
+.input-wrapper i {
+    color: #94a3b8;
+    margin-right: 10px;
+}
+
+.input-wrapper input {
+    border: none;
+    background: transparent;
+    padding: 12px 0;
+    width: 100%;
+    outline: none;
+}
+
+.glass-select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
 }

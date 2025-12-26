@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Inteligente de Condomínios</title>
+
     <meta name="description" content="Sistema de gestão inteligente para condomínios. Controle de acesso, reservas e financeiro em um só lugar.">
+    <meta name="author" content="Eduardo Bruscagim">
+    <link rel="shortcut icon" href="imagens/Logo.webp" type="image/webp">
+
     <meta property="og:title" content="Gestão Inteligente de Condomínios">
     <meta property="og:description" content="Modernize a gestão do seu condomínio com transparência e tecnologia.">
-    <meta property="og:image" content="imagens/Mac.png">  
-    <title>Gestão Inteligente de Condomínios</title>
-    <link rel="shortcut icon" href="imagens/Logo.webp" type="image/webp">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta property="og:image" content="imagens/Mac.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="index.css">
 </head>
@@ -21,19 +26,24 @@
     <header>
         <div class="container nav-wrapper">
             <a href="#" class="logo">
-              <img src="imagens/Logo.webp" alt="Logo do Sistema de Condomínio" class="logo-img">
+                <img src="imagens/Logo.webp" alt="Logo do Sistema de Condomínio" class="logo-img">
             </a>
 
             <button class="mobile-toggle" aria-label="Abrir Menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
+
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html">Início</a></li>
                     <li><a href="#funcionalidades">Funcionalidades</a></li>
                     <li><a href="#recursos">Recursos</a></li>
                     <li><a href="about/sobre.html">Sobre</a></li>
-                    <li><a href="auth/login.html" class="btn btn-primary" style="padding: 8px 16px; color: white;">Área do Síndico</a></li>
+                    <li>
+                        <a href="auth/login.html" class="btn btn-primary" style="padding: 8px 16px; color: white;">
+                            Área do Síndico
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -42,12 +52,16 @@
     <section id="inicio" class="hero container">
         <div class="hero-content">
             <h1>Acompanhe as Manutenções e Gastos do Seu Condomínio</h1>
-            <p>Fim das brigas em grupos. Tenha acesso total ao orçamento, reserve áreas, receba encomendas e registre ocorrências direto pelo sistema.</p>
+            <p>
+                Fim das brigas em grupos. Tenha acesso total ao orçamento, reserve áreas, 
+                receba encomendas e registre ocorrências direto pelo sistema.
+            </p>
             <div class="cta-group">
                 <a href="auth/login.html" class="btn btn-primary">Sou Morador</a>
                 <a href="auth/login.html" class="btn btn-outline">Sou Síndico</a>
             </div>
         </div>
+        
         <div class="hero-image">
             <img src="imagens/Mac.png" alt="Demonstração do Painel Administrativo em um Tablet" class="laptop-mockup">
         </div>
@@ -98,25 +112,33 @@
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-chart-pie"></i></div>
                 <h3>Orçamento em Tempo Real</h3>
-                <p style="color: var(--text-light);">Integração bancária para mostrar o saldo do fundo de reserva atualizado.</p>
+                <p style="color: var(--text-light);">
+                    Integração bancária para mostrar o saldo do fundo de reserva atualizado.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
                 <h3>Comunicados Digitais</h3>
-                <p style="color: var(--text-light);">Chega de ser incomodado de surpresa. Receba avisos de obras e manutenções via notificação.</p>
+                <p style="color: var(--text-light);">
+                    Chega de ser incomodado de surpresa. Receba avisos de obras e manutenções via notificação.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-box-open"></i></div>
                 <h3>Gestão de Encomendas</h3>
-                <p style="color: var(--text-light);">Receba um aviso no celular assim que sua compra chegar na portaria.</p>
+                <p style="color: var(--text-light);">
+                    Receba um aviso no celular assim que sua compra chegar na portaria.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-shield-cat"></i></div>
                 <h3>Controle de Acesso</h3>
-                <p style="color: var(--text-light);">Libere a entrada de visitantes e prestadores de serviço enviando um QR Code temporário.</p>
+                <p style="color: var(--text-light);">
+                    Libere a entrada de visitantes e prestadores de serviço enviando um QR Code temporário.
+                </p>
             </div>
         </div>
     </section>
@@ -130,21 +152,26 @@
             <div class="copyright">
                 © 2025 Sistema de Monitoramento de Condomínios.
             </div>
+            
             <div class="footer-links">
-                <a href="sobre.html">Sobre</a>
+                <a href="about/sobre.html">Sobre</a>
                 <a href="#" class="btn-copy" data-email="eduguilhermebruscagim@gmail.com">Contato Comercial</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // SCRIPT DO BOTÃO DE MENU MOBILE E DO BOTÃO DE COPIAR EMAIL
+        /**
+         * Lógica do Menu Mobile (Hamburgerzinho)
+         */
         const mobileBtn = document.querySelector('.mobile-toggle');
         const navMenu = document.querySelector('.nav-menu');
 
-        if(mobileBtn && navMenu) {
+        if (mobileBtn && navMenu) {
             mobileBtn.addEventListener('click', () => {
                 navMenu.classList.toggle('active');
+                
+                // Troca o ícone de Barras para X
                 const icon = mobileBtn.querySelector('i');
                 if (navMenu.classList.contains('active')) {
                     icon.classList.remove('fa-bars');
@@ -156,28 +183,36 @@
             });
         }
 
+        /**
+         * Lógica do Botão "Copiar E-mail"
+         * Copia para a area de transferencia e dá feedback visual
+         */
         const copyBtn = document.querySelector('.btn-copy');
 
-        if(copyBtn) {
+        if (copyBtn) {
             copyBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 
                 const email = copyBtn.getAttribute('data-email');
                 const originalText = copyBtn.innerText;
 
-                navigator.clipboard.writeText(email).then(() => {
-                    copyBtn.innerText = "Email Copiado!";
-                    copyBtn.style.color = "#6b7280";
-                    
-                    setTimeout(() => {
-                        copyBtn.innerText = originalText;
-                        copyBtn.style.backgroundColor = "";
-                        copyBtn.style.color = "";
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Erro ao copiar: ', err);
-                    alert('Erro ao copiar. O email é: ' + email);
-                });
+                navigator.clipboard.writeText(email)
+                    .then(() => {
+                        // Feedback de Sucesso
+                        copyBtn.innerText = "Email Copiado!";
+                        copyBtn.style.color = "#6b7280";
+                        
+                        // Reseta após 2 segundos
+                        setTimeout(() => {
+                            copyBtn.innerText = originalText;
+                            copyBtn.style.backgroundColor = "";
+                            copyBtn.style.color = "";
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Erro ao copiar: ', err);
+                        alert('Erro ao copiar. O email é: ' + email);
+                    });
             });
         }
     </script>

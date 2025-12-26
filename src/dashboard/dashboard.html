@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel - Condomínio</title>
+    <title>Painel - Condomínio App</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="../global.css">
     <link rel="stylesheet" href="dashboard.css">
@@ -14,6 +14,7 @@
 <body>
 
     <div class="dashboard-container">
+        
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="../imagens/Logo.webp" alt="Logo" class="sidebar-logo">
@@ -39,7 +40,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="../index.html" class="menu-item logout">
+                <a href="#" class="menu-item logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair do Sistema</span>
                 </a>
@@ -57,7 +58,7 @@
         <main class="main-content">
             
             <div class="top-bar">
-                <h2 class="page-title">Painel de Controle</h2>
+                <h2 class="page-title">Visão Geral</h2>
                 
                 <div class="top-actions">
                     <button class="icon-btn" aria-label="Notificações">
@@ -70,66 +71,136 @@
                 </div>
             </div>
 
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="icon-box blue">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <div>
-                        <p class="stat-label">Saldo em Caixa</p>
-                        <h3 class="stat-value">R$ 42.500</h3>
-                        <small class="stat-change positive">+12% este mês</small>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="icon-box purple">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                        <p class="stat-label">Ocorrências</p>
-                        <h3 class="stat-value">3 Abertas</h3>
-                        <small class="stat-change orange">1 Urgente</small>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="icon-box green">
-                        <i class="fa-solid fa-building-user"></i>
-                    </div>
-                    <div>
-                        <p class="stat-label">Unidades</p>
-                        <h3 class="stat-value">48/50</h3>
-                        <small class="stat-change text-light">2 Vazias</small>
-                    </div>
-                </div>
-            </section>
-
-            <section class="recent-activity">
-                <h3 class="section-title">Atividades Recentes</h3>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon bg-blue"><i class="fa-solid fa-calendar-day"></i></div>
-                        <div class="activity-info">
-                            <h4>Reserva confirmada: Salão de Festas</h4>
-                            <p>Apt 402 - Data: 20/01/2026</p>
+            <div id="view-dashboard" class="view-section active">
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon-box blue"><i class="fa-solid fa-wallet"></i></div>
+                        <div>
+                            <p class="stat-label">Saldo em Caixa</p>
+                            <h3 class="stat-value">R$ 42.500</h3>
+                            <small class="stat-change positive">+12% este mês</small>
                         </div>
-                        <span class="activity-time">2h atrás</span>
                     </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon bg-orange"><i class="fa-solid fa-hammer"></i></div>
-                        <div class="activity-info">
-                            <h4>Manutenção Elevador Bloco B</h4>
-                            <p>Técnico agendado para amanhã às 09:00</p>
+                    <div class="stat-card">
+                        <div class="icon-box purple"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div>
+                            <p class="stat-label">Ocorrências</p>
+                            <h3 class="stat-value">3 Abertas</h3>
+                            <small class="stat-change orange">1 Urgente</small>
                         </div>
-                        <span class="activity-time">5h atrás</span>
                     </div>
+                    <div class="stat-card">
+                        <div class="icon-box green"><i class="fa-solid fa-building-user"></i></div>
+                        <div>
+                            <p class="stat-label">Unidades</p>
+                            <h3 class="stat-value">48/50</h3>
+                            <small class="stat-change text-light">2 Vazias</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="recent-activity">
+                    <h3 class="section-title">Atividades Recentes</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon bg-blue"><i class="fa-solid fa-calendar-day"></i></div>
+                            <div class="activity-info">
+                                <h4>Reserva confirmada: Salão de Festas</h4>
+                                <p>Apt 402 - Data: 20/01/2026</p>
+                            </div>
+                            <span class="activity-time">2h atrás</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="view-moradores" class="view-section">
+                
+                <div style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+                    <button id="btn-novo-morador" class="btn btn-primary" style="padding: 10px 20px; gap: 8px;">
+                        <i class="fa-solid fa-plus"></i> Novo Morador
+                    </button>
                 </div>
-            </section>
+
+                <div class="table-container">
+                    <table class="glass-table">
+                        <thead>
+                            <tr>
+                                <th>Morador</th>
+                                <th>Unidade</th>
+                                <th>Contato</th>
+                                <th>Status do Pagamento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-moradores">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
 
         </main>
     </div>
 
+    <div id="modal-novo-morador" class="modal-overlay">
+        <div class="modal-glass">
+            <div class="modal-header">
+                <h3>Novo Morador</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+        <form id="form-morador">
+            <div class="input-group">
+                <label>Nome Completo</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user"></i>
+                    <input type="text" id="nome" required placeholder="Ex: João da Silva">
+                </div>
+            </div>
+        
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Celular / WhatsApp</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" id="celular" required placeholder="(19) 99999-9999">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Tipo</label>
+                    <select id="tipo" class="glass-select">
+                        <option value="Proprietário">Proprietário</option>
+                        <option value="Inquilino">Inquilino</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Unidade (Apt/Bloco)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-door-closed"></i>
+                        <input type="text" id="unidade" required placeholder="Apt 101-A">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Pagamento</label>
+                    <select id="status" class="glass-select">
+                        <option value="ok">✅ Em dia</option>
+                        <option value="late">⚠️ Atrasado</option>
+                    </select>
+                </div>
+            </div>
+        
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+                Salvar Morador
+            </button>
+        </form>
+            
+  
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
 </body>
 </html>

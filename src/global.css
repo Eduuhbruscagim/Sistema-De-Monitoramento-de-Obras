@@ -1,23 +1,45 @@
-/* --- global.css --- */
-/* RESETS E VARIÁVEIS GLOBAIS */
+/* ==========================================================================
+   PROJETO: Condomínio App
+   ARQUIVO: global.css (Design System)
+   AUTOR: Eduardo Bruscagim
+   DESCRIÇÃO: 
+     Define as variáveis globais (tokens), resets de CSS e componentes 
+     compartilhados (Header, Footer, Botões). Estabelece a base visual.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIÁVEIS & DESIGN TOKENS
+   -------------------------------------------------------------------------- */
 :root {
+    /* Cores da Marca */
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --secondary: #06b6d4;
+    
+    /* Paleta Neutra */
     --dark: #0f172a;
     --text-main: #374151;
     --text-light: #6b7280;
     --bg-light: #f9fafb;
     --white: #ffffff;
+    
+    /* Efeitos & Formas */
     --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --radius: 12px;
+    --radius: 12px; /* Curvatura padrão Apple Modern */
+    
+    /* Token de Transição Padrão */
+    --ease-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* --------------------------------------------------------------------------
+   2. RESETS & TIPOGRAFIA
+   -------------------------------------------------------------------------- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased; /* Renderização de fonte nítida no Mac */
 }
 
 html {
@@ -28,58 +50,78 @@ body {
     color: var(--text-main);
     background-color: var(--white);
     line-height: 1.6;
+    overflow-x: hidden; /* Evita scroll horizontal indesejado */
 }
 
-/* UTILITÁRIOS GERAIS */
+/* --------------------------------------------------------------------------
+   3. UTILITÁRIOS & LAYOUT
+   -------------------------------------------------------------------------- */
 .container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
+/* --- Botões (Componente Base) --- */
 .btn {
-    display: inline-block;
-    padding: 14px 28px;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: 12px; /* Consistente com os cards */
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s var(--ease-spring);
     cursor: pointer;
+    font-size: 0.95rem;
 }
 
+/* Botão Primário (Ação Principal) */
 .btn-primary {
     background-color: var(--primary);
     color: var(--white);
     box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+    border: 1px solid transparent;
 }
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3); /* Glow no hover */
 }
 
+/* Botão Outline (Secundário) */
 .btn-outline {
     background-color: transparent;
-    border: 2px solid var(--primary);
+    border: 1px solid var(--primary); /* Borda mais fina e elegante */
     color: var(--primary);
     margin-left: 10px;
 }
 
 .btn-outline:hover {
-    background-color: #eff6ff;
+    background-color: rgba(37, 99, 235, 0.05);
+    transform: translateY(-2px);
 }
 
-/* HEADER & NAV (Comum a todas as páginas) */
+/* --------------------------------------------------------------------------
+   4. HEADER & NAVEGAÇÃO (Global)
+   -------------------------------------------------------------------------- */
 header {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e5e7eb;
+    
+    /* MATERIAL: Hard Glass (Para o Menu Fixo)
+       Aumentei a saturação e reduzi a opacidade para parecer vidro real.
+    */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8); /* Borda sutil */
     z-index: 1000;
     padding: 20px 0;
+    transition: all 0.3s ease;
 }
 
 .nav-wrapper {
@@ -88,41 +130,48 @@ header {
     align-items: center;
 }
 
+/* Branding */
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
     text-decoration: none;
+    transition: transform 0.2s ease;
 }
+
+.logo:hover { transform: scale(1.02); }
 
 .logo-img {
     height: 60px;
     width: auto;
 }
 
+/* Links de Navegação */
 nav ul {
     display: flex;
-    gap: 30px;
+    gap: 32px;
     list-style: none;
+    align-items: center;
 }
 
 nav a {
     text-decoration: none;
     color: var(--text-light);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
     transition: color 0.2s;
+    position: relative;
 }
 
 nav a:hover {
     color: var(--primary);
 }
 
-nav a i {
-    margin-right: 5px;
-}
+/* --------------------------------------------------------------------------
+   5. MENU MOBILE & RODAPÉ
+   -------------------------------------------------------------------------- */
 
-/* Botão Mobile (Comportamento Global) */
+/* Toggle Button (Hamburger) */
 .mobile-toggle {
     display: none;
     font-size: 1.5rem;
@@ -130,14 +179,17 @@ nav a i {
     border: none;
     cursor: pointer;
     color: var(--dark);
-    margin-right: 10px;
+    padding: 5px;
 }
 
-/* FOOTER (Comum a todas as páginas) */
+/* Footer Global */
 footer {
-    border-top: 1px solid #e5e7eb;
-    padding: 60px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    /* MUDANÇA: Reduzi de 80px/60px para 30px uniformes */
+    padding: 30px 0; 
     background: var(--white);
+    position: relative;
+    z-index: 1;
 }
 
 .footer-content {
@@ -151,26 +203,35 @@ footer {
     text-decoration: none;
     color: var(--text-light);
     font-weight: 500;
+    transition: color 0.2s;
 }
 
-/* RESPONSIVIDADE GLOBAL (Menu e Footer) */
+.footer-links a:hover { color: var(--primary); }
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVIDADE (Breakpoints)
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     .mobile-toggle {
         display: block;
     }
 
+    /* Menu Mobile estilo "Drawer" */
     .nav-menu {
         display: block;
         position: fixed;
-        top: 90px;
-        left: -100%;
+        top: 90px; /* Altura aproximada do header */
+        left: -100%; /* Escondido por padrão */
         width: 100%;
         height: calc(100vh - 90px);
-        background-color: var(--white);
+        
+        /* Vidro Sólido para Mobile */
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        
         padding: 40px;
-        transition: 0.3s ease-in-out;
-        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-        border-top: 1px solid #e5e7eb;
+        transition: left 0.4s var(--ease-spring);
+        border-top: 1px solid rgba(0,0,0,0.05);
     }
 
     .nav-menu.active {
@@ -180,19 +241,24 @@ footer {
     .nav-menu ul {
         flex-direction: column;
         align-items: center;
-        gap: 40px;
+        gap: 30px;
     }
 
     .nav-menu a {
-        font-size: 1.2rem;
+        font-size: 1.25rem; /* Fonte maior para toque */
     }
+    
+    .btn-outline { margin: 0; margin-top: 10px; }
 
+    /* Footer Mobile Stack */
     .footer-content {
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
+        text-align: center;
     }
 
     .footer-links a {
-        margin: 0 10px;
+        margin: 0 15px;
+        display: inline-block;
     }
 }
