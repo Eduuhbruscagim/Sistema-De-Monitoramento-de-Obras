@@ -148,59 +148,59 @@
                 <h3>Novo Morador</h3>
                 <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-        <form id="form-morador">
-            <div class="input-group">
-                <label>Nome Completo</label>
-                <div class="input-wrapper">
-                    <i class="fa-regular fa-user"></i>
-                    <input type="text" id="nome" required placeholder="Ex: João da Silva">
-                </div>
-            </div>
-        
-            <div class="form-row">
+    
+            <form id="form-morador">
                 <div class="input-group">
-                    <label>Celular / WhatsApp</label>
+                    <label>Nome Completo</label>
                     <div class="input-wrapper">
-                        <i class="fa-solid fa-phone"></i>
-                        <input type="tel" id="celular" required placeholder="(19) 99999-9999">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" id="nome" required placeholder="Ex: João da Silva">
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>Tipo</label>
-                    <select id="tipo" class="glass-select">
-                        <option value="Proprietário">Proprietário</option>
-                        <option value="Inquilino">Inquilino</option>
-                    </select>
-                </div>
-            </div>
-        
-            <div class="form-row">
-                <div class="input-group">
-                    <label>Unidade (Apt/Bloco)</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-door-closed"></i>
-                        <input type="text" id="unidade" required placeholder="Apt 101-A">
+    
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Celular</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" id="celular" required placeholder="(11) 99999-9999">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Tipo</label>
+                        <select id="tipo" class="glass-select">
+                            <option value="Proprietário">Proprietário</option>
+                            <option value="Inquilino">Inquilino</option>
+                        </select>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>Pagamento</label>
-                    <select id="status" class="glass-select">
-                        <option value="ok">✅ Em dia</option>
-                        <option value="late">⚠️ Atrasado</option>
-                    </select>
+    
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Unidade / Bloco</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-door-closed"></i>
+                            <input type="text" id="unidade" required placeholder="Ex: 101 Bloco A">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Pagamento</label>
+                        <select id="status" class="glass-select">
+                            <option value="ok">✅ Em dia</option>
+                            <option value="late">⚠️ Atrasado</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-        
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
-                Salvar Morador
-            </button>
-        </form>
-            
-  
+    
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; justify-content: center; margin-top: 10px;">
+                    Salvar Dados
+                </button>
+            </form>
         </div>
     </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>
