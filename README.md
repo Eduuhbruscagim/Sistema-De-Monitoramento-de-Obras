@@ -1,6 +1,6 @@
 # 🏢 Condomínio App (SaaS Concept)
 
-![Preview do Projeto](src/imagens/Mac.png)
+![Preview do Projeto](src/imagens/Mac.webp)
 
 > **Status:** 🚀 Fase 2 Concluída (Front-end Premium & UI Experience)
 
