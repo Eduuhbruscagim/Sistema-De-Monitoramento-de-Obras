@@ -82,6 +82,8 @@
           </div>
         </div>
 
+        <div id="feedback" class="status-msg"></div>
+
         <button
           type="submit"
           class="btn btn-primary btn-full"
@@ -95,7 +97,7 @@
         </div>
       </form>
 
-      <a href="index.html" class="back-link">
+      <a href="../index.html" class="back-link">
         <i class="fa-solid fa-arrow-left"></i> Voltar para o site
       </a>
     </main>
@@ -103,52 +105,67 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-      // CONFIGURAÇÃO (A mesma de sempre)
       const SUPABASE_URL = "https://dtfzvbtodlyyfokfgllv.supabase.co";
-      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
-      
-      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
+
+      // Variável segura
+      const clienteSupabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
       async function handleRegister(e) {
         e.preventDefault();
 
         const btn = e.target.querySelector("button");
+        const feedbackBox = document.getElementById("feedback");
         const originalText = btn.innerText;
 
-        // Pega os dados do form
+        feedbackBox.style.display = "none";
+        feedbackBox.className = "status-msg";
+
         const nome = document.getElementById("name").value;
         const bloco = document.getElementById("block").value;
         const unidade = document.getElementById("unit").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        // Feedback visual
         btn.innerText = "Criando conta...";
         btn.disabled = true;
         btn.style.opacity = "0.7";
 
-        // CRIA O USUÁRIO NO SUPABASE
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    full_name: nome,
-                    bloco: bloco,
-                    unidade: unidade
-                    // Esses dados extras ficam salvos no perfil do usuário
-                }
-            }
+        const { data, error } = await clienteSupabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: nome,
+              bloco: bloco,
+              unidade: unidade,
+            },
+          },
         });
 
         if (error) {
-            alert("Erro ao criar conta: " + error.message);
-            btn.innerText = originalText;
-            btn.disabled = false;
-            btn.style.opacity = "1";
+          // ERRO
+          feedbackBox.innerText = "Erro: " + error.message;
+          feedbackBox.classList.add("error");
+          feedbackBox.style.display = "block";
+
+          btn.innerText = originalText;
+          btn.disabled = false;
+          btn.style.opacity = "1";
         } else {
-            alert("Conta criada com sucesso! Faça login.");
+          // SUCESSO
+          feedbackBox.innerText = "Conta criada com sucesso! Redirecionando...";
+          feedbackBox.classList.add("success"); // Fica verde
+          feedbackBox.style.display = "block";
+
+          // Espera 2 segundinhos pro usuário ler e manda pro login
+          setTimeout(() => {
             window.location.href = "login.html";
+          }, 2000);
         }
       }
     </script>

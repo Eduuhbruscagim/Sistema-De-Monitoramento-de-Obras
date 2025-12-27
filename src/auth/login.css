@@ -261,3 +261,45 @@
         color: #1e293b;
         background: rgba(255, 255, 255, 0.5);
     }
+
+
+    /* --- MENSAGENS DE ERRO/SUCESSO --- */
+    .status-msg {
+        display: none;
+        /* Escondido por padrão */
+        padding: 12px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-align: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* Estilo de Erro */
+    .status-msg.error {
+        background: rgba(254, 226, 226, 0.8);
+        /* Vermelho bem claro */
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    /* Estilo de Sucesso (pra usar depois se quiser) */
+    .status-msg.success {
+        background: rgba(220, 252, 231, 0.8);
+        /* Verde claro */
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }

@@ -61,6 +61,8 @@
           >
         </div>
 
+        <div id="feedback" class="status-msg"></div>
+
         <button type="submit" class="btn btn-primary btn-full">
           Entrar na Plataforma
         </button>
@@ -75,42 +77,55 @@
       </a>
     </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-      // SUAS CREDENCIAIS (As mesmas do Dashboard)
       const SUPABASE_URL = "https://dtfzvbtodlyyfokfgllv.supabase.co";
-      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
-      
-      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
+
+      const clienteSupabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
       async function handleLogin(e) {
-        e.preventDefault(); 
+        e.preventDefault();
 
+        // Elementos da tela
         const btn = e.target.querySelector("button");
+        const feedbackBox = document.getElementById("feedback");
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const originalText = btn.innerText;
 
-        // Feedback visual
+        // Limpa mensagens anteriores e mostra carregamento
+        feedbackBox.style.display = "none";
+        feedbackBox.className = "status-msg"; // Reseta classes
+
         btn.innerText = "Autenticando...";
         btn.disabled = true;
         btn.style.opacity = "0.7";
 
-        // LOGIN DE VERDADE NO SUPABASE
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
+        // Tenta Logar
+        const { data, error } = await clienteSupabase.auth.signInWithPassword({
+          email: email,
+          password: password,
         });
 
         if (error) {
-            alert("Erro: E-mail ou senha incorretos.");
-            btn.innerText = originalText;
-            btn.disabled = false;
-            btn.style.opacity = "1";
+          // ERRO: Mostra na div bonitinho
+          feedbackBox.innerText = "E-mail ou senha incorretos.";
+          feedbackBox.classList.add("error"); // Fica vermelho
+          feedbackBox.style.display = "block"; // Aparece
+
+          // Reseta o botão
+          btn.innerText = originalText;
+          btn.disabled = false;
+          btn.style.opacity = "1";
         } else {
-            // Agora sim, temos um crachá válido!
-            window.location.href = "../dashboard/dashboard.html";
+          // SUCESSO: Redireciona
+          window.location.href = "../dashboard/dashboard.html";
         }
       }
     </script>
