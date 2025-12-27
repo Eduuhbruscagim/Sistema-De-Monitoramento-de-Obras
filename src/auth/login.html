@@ -74,20 +74,44 @@
         <i class="fa-solid fa-arrow-left"></i> Voltar para o site
       </a>
     </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-      function handleLogin(e) {
-        e.preventDefault(); // Impede a página de recarregar
+      // SUAS CREDENCIAIS (As mesmas do Dashboard)
+      const SUPABASE_URL = "https://dtfzvbtodlyyfokfgllv.supabase.co";
+      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
+      
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      async function handleLogin(e) {
+        e.preventDefault(); 
 
         const btn = e.target.querySelector("button");
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
         const originalText = btn.innerText;
 
-        // Efeito visual de "Carregando"
+        // Feedback visual
         btn.innerText = "Autenticando...";
+        btn.disabled = true;
         btn.style.opacity = "0.7";
 
-        setTimeout(() => {
-          window.location.href = "../dashboard/dashboard.html";
-        }, 1000);
+        // LOGIN DE VERDADE NO SUPABASE
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            alert("Erro: E-mail ou senha incorretos.");
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        } else {
+            // Agora sim, temos um crachá válido!
+            window.location.href = "../dashboard/dashboard.html";
+        }
       }
     </script>
   </body>

@@ -12,9 +12,9 @@
     --dark: #0f172a;
     --text: #64748b;
     --radius: 24px;
-    
+
     /* Hard Glass */
-    --glass-bg: rgba(255, 255, 255, 0.45); 
+    --glass-bg: rgba(255, 255, 255, 0.45);
     --glass-border: rgba(255, 255, 255, 0.9);
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
@@ -26,7 +26,8 @@ body.about-page {
     padding: 0 !important;
     overflow-x: hidden;
     color: var(--dark);
-    background-color: #f3f4f6; /* Cor base caso o gradiente falhe */
+    background-color: #f3f4f6;
+    /* Cor base caso o gradiente falhe */
     position: relative;
 }
 
@@ -40,8 +41,10 @@ body.about-page::before {
     height: 100%;
     background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #e0e7ff 50%, #f3f4f6 100%);
     background-size: cover;
-    z-index: -1; /* Fica atrás de tudo */
-    will-change: transform; /* Dica para a GPU */
+    z-index: -1;
+    /* Fica atrás de tudo */
+    will-change: transform;
+    /* Dica para a GPU */
 }
 
 /* --------------------------------------------------------------------------
@@ -55,33 +58,36 @@ body.about-page::before {
     width: 90%;
     max-width: 1200px;
     height: auto !important;
-    
+
     display: flex !important;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px !important;
-    
+
     /* === O SEGREDO DA APPLE === */
-    
+
     /* 1. Menos branco, mais transparência */
-    background: rgba(255, 255, 255, 0.45) !important; 
-    
+    background: rgba(255, 255, 255, 0.45) !important;
+
     /* 2. O Pulo do Gato: saturate(180%) faz as cores do fundo "estourarem" no vidro */
     backdrop-filter: saturate(180%) blur(24px);
     -webkit-backdrop-filter: saturate(180%) blur(24px);
-    
+
     /* 3. Borda mais sutil (sem border-style, usando shadow interna pra simular espessura do vidro) */
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 
+    box-shadow:
         0 8px 32px 0 rgba(31, 38, 135, 0.1),
         inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-    
+
     border-radius: 100px;
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
-.nav-logo { height: 32px; width: auto; }
+.nav-logo {
+    height: 32px;
+    width: auto;
+}
 
 .back-btn {
     text-decoration: none !important;
@@ -95,7 +101,10 @@ body.about-page::before {
     background: none !important;
     border: none !important;
 }
-.back-btn:hover { color: var(--primary) !important; }
+
+.back-btn:hover {
+    color: var(--primary) !important;
+}
 
 /* --------------------------------------------------------------------------
    3. HERO SECTION (Storytelling)
@@ -174,7 +183,7 @@ body.about-page::before {
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(160%);
     border: 1px solid var(--glass-border);
-    
+
     padding: 40px;
     border-radius: 24px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -198,12 +207,34 @@ body.about-page::before {
     font-size: 1.5rem;
     margin-bottom: 24px;
 }
-.blue { background: #eff6ff; color: var(--primary); }
-.purple { background: #f3e8ff; color: #9333ea; }
-.green { background: #dcfce7; color: #16a34a; }
 
-.value-card h3 { font-size: 1.25rem; margin-bottom: 12px; font-weight: 700; color: var(--dark); }
-.value-card p { color: var(--text); line-height: 1.6; font-size: 1rem; }
+.blue {
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+.purple {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+
+.green {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.value-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.value-card p {
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 1rem;
+}
 
 /* --------------------------------------------------------------------------
    5. TEAM SECTION (A Equipe)
@@ -215,9 +246,21 @@ body.about-page::before {
     text-align: center;
 }
 
-.team-header { margin-bottom: 60px; }
-.team-header h2 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -0.03em; color: var(--dark); }
-.team-header p { font-size: 1.2rem; color: var(--text); }
+.team-header {
+    margin-bottom: 60px;
+}
+
+.team-header h2 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: -0.03em;
+    color: var(--dark);
+}
+
+.team-header p {
+    font-size: 1.2rem;
+    color: var(--text);
+}
 
 .team-grid {
     display: flex;
@@ -230,36 +273,38 @@ body.about-page::before {
 .member-card {
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%); /* Importante para Safari */
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    /* Importante para Safari */
     border: 1px solid var(--glass-border);
-    
+
     border-radius: 24px;
     padding: 20px;
     width: 280px;
-    
+
     box-shadow: var(--glass-shadow);
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                box-shadow 0.3s ease, 
-                background-color 0.3s ease;
-    
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s ease,
+        background-color 0.3s ease;
+
     /* AVISA O NAVEGADOR: "Vou me mexer, prepara a GPU" */
-    will-change: transform; 
-    
+    will-change: transform;
+
     /* Evita serrilhado no Chrome durante animação */
-    transform: translateZ(0); 
+    transform: translateZ(0);
 }
 
 .member-card:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 20px 30px -5px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Foto do Membro - Dica Extra */
 .member-photo {
     width: 100%;
     /* Removemos a altura fixa de 280px que esticava a foto */
-    aspect-ratio: 1 / 1; /* Força um quadrado perfeito (ex: 240x240) */
+    aspect-ratio: 1 / 1;
+    /* Força um quadrado perfeito (ex: 240x240) */
     border-radius: 20px;
     overflow: hidden;
     margin-bottom: 20px;
@@ -269,28 +314,32 @@ body.about-page::before {
 .member-photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cobre o quadrado sem deformar */
-    object-position: center top; /* Foca no rosto (topo/centro) */
+    object-fit: cover;
+    /* Cobre o quadrado sem deformar */
+    object-position: center top;
+    /* Foca no rosto (topo/centro) */
     transition: transform 0.5s ease;
     will-change: transform;
 }
 
-.member-card:hover .member-photo img { transform: scale(1.05); }
-
-/* Detalhes do Membro */
-.member-card h3 { 
-    font-size: 1.2rem; 
-    margin-bottom: 5px; 
-    color: var(--dark); 
-    font-weight: 700; 
+.member-card:hover .member-photo img {
+    transform: scale(1.05);
 }
 
-.role { 
-    display: block; 
-    color: var(--primary); 
-    font-weight: 600; 
-    font-size: 0.9rem; 
-    margin-bottom: 15px; 
+/* Detalhes do Membro */
+.member-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: var(--dark);
+    font-weight: 700;
+}
+
+.role {
+    display: block;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
 }
 
 .social-links {
@@ -304,7 +353,11 @@ body.about-page::before {
     font-size: 1.2rem;
     transition: 0.2s;
 }
-.social-links a:hover { color: var(--dark); transform: scale(1.1); }
+
+.social-links a:hover {
+    color: var(--dark);
+    transform: scale(1.1);
+}
 
 /* --------------------------------------------------------------------------
    6. RODAPÉ (Isolado)
@@ -314,7 +367,7 @@ body.about-page::before {
     padding: 40px;
     color: var(--text);
     font-size: 0.9rem;
-    border-top: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
     margin-top: 50px;
 }
 
@@ -322,8 +375,16 @@ body.about-page::before {
    7. RESPONSIVIDADE
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
-    .about-hero { margin-top: 120px !important; }
-    .about-hero h1 { font-size: 2.5rem; }
-    
-    .values-grid, .team-grid { justify-content: center; }
+    .about-hero {
+        margin-top: 120px !important;
+    }
+
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .values-grid,
+    .team-grid {
+        justify-content: center;
+    }
 }

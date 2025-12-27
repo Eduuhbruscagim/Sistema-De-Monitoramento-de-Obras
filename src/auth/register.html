@@ -100,15 +100,56 @@
       </a>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-      function handleRegister(e) {
+      // CONFIGURAÇÃO (A mesma de sempre)
+      const SUPABASE_URL = "https://dtfzvbtodlyyfokfgllv.supabase.co";
+      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
+      
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      async function handleRegister(e) {
         e.preventDefault();
+
         const btn = e.target.querySelector("button");
+        const originalText = btn.innerText;
+
+        // Pega os dados do form
+        const nome = document.getElementById("name").value;
+        const bloco = document.getElementById("block").value;
+        const unidade = document.getElementById("unit").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Feedback visual
         btn.innerText = "Criando conta...";
-        setTimeout(() => {
-          alert("Conta criada! Aguarde aprovação.");
-          window.location.href = "login.html";
-        }, 1500);
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+
+        // CRIA O USUÁRIO NO SUPABASE
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: nome,
+                    bloco: bloco,
+                    unidade: unidade
+                    // Esses dados extras ficam salvos no perfil do usuário
+                }
+            }
+        });
+
+        if (error) {
+            alert("Erro ao criar conta: " + error.message);
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        } else {
+            alert("Conta criada com sucesso! Faça login.");
+            window.location.href = "login.html";
+        }
       }
     </script>
   </body>

@@ -1,263 +1,263 @@
     /* --------------------------------------------------------------------------
    1. VARIÁVEIS & DESIGN TOKENS
    -------------------------------------------------------------------------- */
-:root {
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
+    :root {
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
 
-    /* Consistência com Dashboard (Light Apple Glass) */
-    --glass-bg: rgba(255, 255, 255, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-    /* Sombra difusa premium */
+        /* Consistência com Dashboard (Light Apple Glass) */
+        --glass-bg: rgba(255, 255, 255, 0.65);
+        --glass-border: rgba(255, 255, 255, 0.8);
+        --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        /* Sombra difusa premium */
 
-    --radius: 24px;
-}
+        --radius: 24px;
+    }
 
-/* --------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------
    2. ESTRUTURA DA PÁGINA
    -------------------------------------------------------------------------- */
-.login-page {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    .login-page {
+        font-family: 'Plus Jakarta Sans', sans-serif;
 
-    /* BACKGROUND SINCRONIZADO:
+        /* BACKGROUND SINCRONIZADO:
        Ajustado para o mesmo gradiente "Morning Aura" (0% 0%) do Index e Dashboard.
     */
-    background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #e0e7ff 50%, #f3f4f6 100%);
-    background-attachment: fixed;
-    background-size: cover;
+        background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #e0e7ff 50%, #f3f4f6 100%);
+        background-attachment: fixed;
+        background-size: cover;
 
-    /* Centralização Absoluta */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    color: #1e293b;
-}
+        /* Centralização Absoluta */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        color: #1e293b;
+    }
 
-/* --------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------
    3. O CARD DE VIDRO (Container)
    -------------------------------------------------------------------------- */
-.login-card {
-    background: var(--glass-bg);
+    .login-card {
+        background: var(--glass-bg);
 
-    /* Efeito Frost */
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--glass-border);
+        /* Efeito Frost */
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--glass-border);
 
-    /* Layout Interno */
-    padding: 48px 40px;
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
+        /* Layout Interno */
+        padding: 48px 40px;
+        border-radius: var(--radius);
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
 
-    /* Elevação Consistente */
-    box-shadow: var(--glass-shadow);
+        /* Elevação Consistente */
+        box-shadow: var(--glass-shadow);
 
-    /* Animação de Entrada */
-    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideUpFade {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
+        /* Animação de Entrada */
+        animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+        }
 
-/* --------------------------------------------------------------------------
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* --------------------------------------------------------------------------
    4. CABEÇALHO (Logo & Título)
    -------------------------------------------------------------------------- */
-.login-header {
-    margin-bottom: 32px;
-}
+    .login-header {
+        margin-bottom: 32px;
+    }
 
-.login-header img {
-    height: 56px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
-}
+    .login-header img {
+        height: 56px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
+    }
 
-.login-header h2 {
-    color: #0f172a;
-    font-size: 1.75rem;
-    margin-bottom: 8px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
+    .login-header h2 {
+        color: #0f172a;
+        font-size: 1.75rem;
+        margin-bottom: 8px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
 
-.login-header p {
-    color: #64748b;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
+    .login-header p {
+        color: #64748b;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
 
-/* --------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------
    5. FORMULÁRIO (Inputs)
    -------------------------------------------------------------------------- */
-.input-group {
-    margin-bottom: 24px;
-    text-align: left;
-}
+    .input-group {
+        margin-bottom: 24px;
+        text-align: left;
+    }
 
-.input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #334155;
-    font-size: 0.85rem;
-    margin-left: 4px;
-}
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.85rem;
+        margin-left: 4px;
+    }
 
-.input-wrapper {
-    position: relative;
-}
+    .input-wrapper {
+        position: relative;
+    }
 
-/* Ícone */
-.input-wrapper i {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    font-size: 1.1rem;
-    transition: color 0.2s;
-}
+    /* Ícone */
+    .input-wrapper i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 1.1rem;
+        transition: color 0.2s;
+    }
 
-/* Campo de Texto */
-.input-wrapper input {
-    width: 100%;
-    padding: 14px 14px 14px 48px;
-    /* Padding extra para o ícone */
+    /* Campo de Texto */
+    .input-wrapper input {
+        width: 100%;
+        padding: 14px 14px 14px 48px;
+        /* Padding extra para o ícone */
 
-    background: rgba(255, 255, 255, 0.5);
-    /* Levemente translúcido */
-    border: 1px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.5);
+        /* Levemente translúcido */
+        border: 1px solid #e2e8f0;
 
-    border-radius: 12px;
-    font-size: 1rem;
-    outline: none;
-    color: #1e293b;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    transition: all 0.2s ease;
-}
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        color: #1e293b;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        transition: all 0.2s ease;
+    }
 
-/* Estado de Foco */
-.input-wrapper input:focus {
-    background: #fff;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-    /* Anel de foco azul */
-}
+    /* Estado de Foco */
+    .input-wrapper input:focus {
+        background: #fff;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        /* Anel de foco azul */
+    }
 
-.input-wrapper input:focus+i {
-    color: var(--primary);
-}
+    .input-wrapper input:focus+i {
+        color: var(--primary);
+    }
 
-/* --------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------
    6. AÇÕES (Botões & Links)
    -------------------------------------------------------------------------- */
-.actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-}
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+    }
 
-.remember-me {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: #64748b;
-    font-weight: 500;
-}
+    .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        color: #64748b;
+        font-weight: 500;
+    }
 
-.forgot-pass {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s;
-}
+    .forgot-pass {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
 
-.forgot-pass:hover {
-    color: var(--primary-hover);
-}
+    .forgot-pass:hover {
+        color: var(--primary-hover);
+    }
 
-/* Botão Principal */
-.btn-full {
-    width: 100%;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
+    /* Botão Principal */
+    .btn-full {
+        width: 100%;
+        border: none;
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
 
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.btn-full:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
-}
+    .btn-full:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
+    }
 
-.btn-full:active {
-    transform: scale(0.98);
-}
+    .btn-full:active {
+        transform: scale(0.98);
+    }
 
-/* --------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------
    7. RODAPÉ (Links Secundários)
    -------------------------------------------------------------------------- */
-.register-link {
-    margin-top: 24px;
-    font-size: 0.9rem;
-    color: #64748b;
-    font-weight: 500;
-}
+    .register-link {
+        margin-top: 24px;
+        font-size: 0.9rem;
+        color: #64748b;
+        font-weight: 500;
+    }
 
-.register-link a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 700;
-}
+    .register-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 700;
+    }
 
-.register-link a:hover {
-    text-decoration: underline;
-}
+    .register-link a:hover {
+        text-decoration: underline;
+    }
 
-.back-link {
-    margin-top: 32px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 20px;
-    transition: all 0.2s;
-}
+    .back-link {
+        margin-top: 32px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 20px;
+        transition: all 0.2s;
+    }
 
-.back-link:hover {
-    color: #1e293b;
-    background: rgba(255, 255, 255, 0.5);
-}
+    .back-link:hover {
+        color: #1e293b;
+        background: rgba(255, 255, 255, 0.5);
+    }

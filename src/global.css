@@ -6,18 +6,19 @@
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --secondary: #06b6d4;
-    
+
     /* Paleta Neutra */
     --dark: #0f172a;
     --text-main: #374151;
     --text-light: #6b7280;
     --bg-light: #f9fafb;
     --white: #ffffff;
-    
+
     /* Efeitos & Formas */
     --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --radius: 12px; /* Curvatura padrão Apple Modern */
-    
+    --radius: 12px;
+    /* Curvatura padrão Apple Modern */
+
     /* Token de Transição Padrão */
     --ease-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -30,7 +31,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    -webkit-font-smoothing: antialiased; /* Renderização de fonte nítida no Mac */
+    -webkit-font-smoothing: antialiased;
+    /* Renderização de fonte nítida no Mac */
 }
 
 html {
@@ -41,7 +43,8 @@ body {
     color: var(--text-main);
     background-color: var(--white);
     line-height: 1.6;
-    overflow-x: hidden; /* Evita scroll horizontal indesejado */
+    overflow-x: hidden;
+    /* Evita scroll horizontal indesejado */
 }
 
 /* --------------------------------------------------------------------------
@@ -59,7 +62,8 @@ body {
     align-items: center;
     justify-content: center;
     padding: 12px 28px;
-    border-radius: 12px; /* Consistente com os cards */
+    border-radius: 12px;
+    /* Consistente com os cards */
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s var(--ease-spring);
@@ -78,13 +82,15 @@ body {
 .btn-primary:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3); /* Glow no hover */
+    box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
+    /* Glow no hover */
 }
 
 /* Botão Outline (Secundário) */
 .btn-outline {
     background-color: transparent;
-    border: 1px solid var(--primary); /* Borda mais fina e elegante */
+    border: 1px solid var(--primary);
+    /* Borda mais fina e elegante */
     color: var(--primary);
     margin-left: 10px;
 }
@@ -104,7 +110,7 @@ header {
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
     z-index: 1000;
     padding: 20px 0;
@@ -132,7 +138,9 @@ header.scrolled {
     transition: transform 0.2s ease;
 }
 
-.logo:hover { transform: scale(1.02); }
+.logo:hover {
+    transform: scale(1.02);
+}
 
 .logo-img {
     height: 60px;
@@ -179,7 +187,7 @@ nav a:hover {
 footer {
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     /* MUDANÇA: Reduzi de 80px/60px para 30px uniformes */
-    padding: 30px 0; 
+    padding: 30px 0;
     background: var(--white);
     position: relative;
     z-index: 1;
@@ -199,7 +207,9 @@ footer {
     transition: color 0.2s;
 }
 
-.footer-links a:hover { color: var(--primary); }
+.footer-links a:hover {
+    color: var(--primary);
+}
 
 /* --------------------------------------------------------------------------
    6. RESPONSIVIDADE (Breakpoints)
@@ -213,18 +223,20 @@ footer {
     .nav-menu {
         display: block;
         position: fixed;
-        top: 90px; /* Altura aproximada do header */
-        left: -100%; /* Escondido por padrão */
+        top: 90px;
+        /* Altura aproximada do header */
+        left: -100%;
+        /* Escondido por padrão */
         width: 100%;
         height: calc(100vh - 90px);
-        
+
         /* Vidro Sólido para Mobile */
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
-        
+
         padding: 40px;
         transition: left 0.4s var(--ease-spring);
-        border-top: 1px solid rgba(0,0,0,0.05);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .nav-menu.active {
@@ -238,10 +250,14 @@ footer {
     }
 
     .nav-menu a {
-        font-size: 1.25rem; /* Fonte maior para toque */
+        font-size: 1.25rem;
+        /* Fonte maior para toque */
     }
-    
-    .btn-outline { margin: 0; margin-top: 10px; }
+
+    .btn-outline {
+        margin: 0;
+        margin-top: 10px;
+    }
 
     /* Footer Mobile Stack */
     .footer-content {

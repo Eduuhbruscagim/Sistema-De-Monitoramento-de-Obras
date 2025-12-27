@@ -1,12 +1,37 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
     // ==========================================
-    // 0. CONFIGURAÇÃO SUPABASE (PREENCHA AQUI!)
+    // 0. CONFIGURAÇÃO SUPABASE
     // ==========================================
     const SUPABASE_URL = "https://dtfzvbtodlyyfokfgllv.supabase.co";
-    const SUPABASE_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Znp2YnRvZGx5eWZva2ZnbGx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MDE0NDUsImV4cCI6MjA4MjM3NzQ0NX0.L6qGW1Bl8k0eQhvJL_IvGE3q7yVPGPELL2beiDLhQ_Y";
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ==========================================
+    // 🔒 0.5 SEGURANÇA & LOGOUT (O PORTEIRO)
+    // ==========================================
+
+    // A) Verifica se tem usuário logado
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+        // Se não tem crachá, tchau!
+        window.location.href = '../auth/login.html';
+        return; // Para o código aqui. Não carrega nada de baixo.
+    }
+
+    // B) Configura o Botão de Sair (Logout)
+    const btnLogout = document.querySelector('.logout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                window.location.href = '../auth/login.html';
+            }
+        });
+    }
 
     // ==========================================
     // 1. VARIÁVEIS GLOBAIS
