@@ -9,71 +9,146 @@ document.addEventListener("DOMContentLoaded", async () => {
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // ==========================================
-    // 🔒 0.5 SEGURANÇA & LOGOUT (O PORTEIRO)
+    // 🔒 0.5 O PORTEIRO & O DONO (AUTH & RBAC)
     // ==========================================
-
-    // A) Verifica se tem usuário logado
+    
+    // 1. Verifica se está logado
     const { data: { session } } = await supabase.auth.getSession();
-
     if (!session) {
-        // Se não tem crachá, tchau!
         window.location.href = '../auth/login.html';
-        return; // Para o código aqui. Não carrega nada de baixo.
+        return;
     }
 
-    // B) Configura o Botão de Sair (Logout)
+    // 2. Descobre QUEM é o usuário
+    let perfilUsuario = null;
+    try {
+        const { data } = await supabase
+            .from('moradores')
+            .select('*')
+            .eq('email', session.user.email)
+            .single();
+        
+        if (data) {
+            perfilUsuario = data;
+        }
+    } catch (err) {
+        console.log("Visitante sem perfil.");
+    }
+
+    // Verifica se é o "Dono"
+    const souODono = perfilUsuario && perfilUsuario.cargo === 'Dono';
+
+    // 3. Aplica as Regras
+    aplicarPermissoes(souODono);
+
+
+    // Configura Logout
     const btnLogout = document.querySelector('.logout');
     if (btnLogout) {
         btnLogout.addEventListener('click', async (e) => {
             e.preventDefault();
-            const { error } = await supabase.auth.signOut();
-            if (!error) {
-                window.location.href = '../auth/login.html';
-            }
+            await supabase.auth.signOut();
+            window.location.href = '../auth/login.html';
         });
     }
 
     // ==========================================
     // 1. VARIÁVEIS GLOBAIS
     // ==========================================
-    let moradoresCache = []; // Guarda os dados pra não ficar buscando toda hora
-    let idEditando = null; // Se tiver ID aqui, é Edição. Se for null, é Criação.
+    let moradoresCache = [];
+    let idEditando = null;
+    let idParaDeletar = null;
 
-    // Elementos do DOM
     const tabelaBody = document.getElementById("lista-moradores");
-    const btnNovoMorador = document.getElementById("btn-novo-morador");
-    const modal = document.getElementById("modal-novo-morador");
-    const btnFecharModal = document.querySelector(".close-modal");
+    const modalCadastro = document.getElementById("modal-novo-morador");
+    const modalExclusao = document.getElementById("modal-confirm-delete");
     const formMorador = document.getElementById("form-morador");
 
+
     // ==========================================
-    // 2. CRUD (CREATE, READ, UPDATE, DELETE)
+    // FUNÇÃO DE PERMISSÕES
+    // ==========================================
+    function aplicarPermissoes(isBoss) {
+        // Transparência: Todos veem os dados (Money, Ocorrências).
+        // Restrição: Apenas nos botões de ação.
+
+        if (!isBoss) {
+            console.log("👁️ Modo Transparência: Morador vendo dados, mas sem editar.");
+
+            // 1. Some com o botão de adicionar novo morador
+            const btnNovo = document.getElementById("btn-novo-morador");
+            if (btnNovo) btnNovo.style.display = "none";
+            
+        } else {
+            console.log("👑 O Dono CHEGOU! Controle total liberado.");
+        }
+    }
+
+
+    // ==========================================
+    // 2. SISTEMA DE EXCLUSÃO
+    // ==========================================
+    window.abrirModalExclusao = (id) => {
+        idParaDeletar = id;
+        modalExclusao.classList.add("active");
+    };
+
+    window.fecharModalExclusao = () => {
+        idParaDeletar = null;
+        modalExclusao.classList.remove("active");
+    };
+
+    document.getElementById("btn-confirm-delete").addEventListener("click", async () => {
+        if (!idParaDeletar) return;
+
+        const btn = document.getElementById("btn-confirm-delete");
+        const textoOriginal = btn.innerText;
+        btn.innerText = "Excluindo...";
+        btn.disabled = true;
+
+        const { error } = await supabase.from("moradores").delete().eq("id", idParaDeletar);
+
+        if (error) {
+            alert("Erro: " + error.message);
+        } else {
+            fecharModalExclusao();
+            carregarMoradores();
+        }
+
+        btn.innerText = textoOriginal;
+        btn.disabled = false;
+    });
+
+
+    // ==========================================
+    // 3. CRUD
     // ==========================================
 
-    // --- READ (Ler do Banco) ---
     async function carregarMoradores() {
-        tabelaBody.innerHTML =
-            '<tr><td colspan="5" style="text-align:center">Carregando dados da nuvem...</td></tr>';
+        tabelaBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Carregando...</td></tr>';
 
-        // Busca no Supabase
         const { data, error } = await supabase
             .from("moradores")
             .select("*")
-            .order("id", { ascending: false }); // Do mais novo pro mais antigo
+            .order("id", { ascending: false });
 
         if (error) {
             console.error(error);
-            alert("Erro ao buscar dados.");
             return;
         }
 
-        moradoresCache = data; // Atualiza a memória local
+        moradoresCache = data;
         renderizarTabela();
         atualizarContadores();
     }
 
-    // --- CREATE & UPDATE (Salvar) ---
     async function salvarMorador(dados) {
+        // Proteção: Só o Dono mexe
+        if (!souODono) {
+            alert("Apenas o Dono pode alterar dados.");
+            return;
+        }
+
         const btnSalvar = formMorador.querySelector("button");
         const textoOriginal = btnSalvar.innerText;
         btnSalvar.innerText = "Salvando...";
@@ -82,84 +157,54 @@ document.addEventListener("DOMContentLoaded", async () => {
         let error = null;
 
         if (idEditando) {
-            // MODO UPDATE: Atualiza o existente
-            const response = await supabase
-                .from("moradores")
-                .update(dados)
-                .eq("id", idEditando);
+            const response = await supabase.from("moradores").update(dados).eq("id", idEditando);
             error = response.error;
         } else {
-            // MODO CREATE: Cria um novo
+            dados.cargo = 'morador'; 
             const response = await supabase.from("moradores").insert([dados]);
             error = response.error;
         }
 
         if (error) {
-            alert("Erro ao salvar: " + error.message);
+            alert("Erro: " + error.message);
         } else {
-            await carregarMoradores(); // Recarrega a lista
-            fecharModal();
+            await carregarMoradores();
+            fecharModalCadastro();
         }
 
         btnSalvar.innerText = textoOriginal;
         btnSalvar.disabled = false;
     }
 
-    // --- DELETE (Apagar) ---
-    window.deletarMorador = async (id) => {
-        if (confirm("Tem certeza? Isso apaga permanentemente do banco.")) {
-            const { error } = await supabase.from("moradores").delete().eq("id", id);
-
-            if (error) {
-                alert("Erro ao deletar: " + error.message);
-            } else {
-                carregarMoradores();
-            }
-        }
-    };
-
-    // --- PREPARAR EDIÇÃO (Jogar dados no form) ---
-    window.editarMorador = (id) => {
-        const morador = moradoresCache.find((m) => m.id === id);
-        if (!morador) return;
-
-        idEditando = id; // Marca que estamos editando
-
-        // Preenche os campos
-        document.getElementById("nome").value = morador.nome;
-        document.getElementById("celular").value = morador.celular;
-        document.getElementById("tipo").value = morador.tipo;
-        document.getElementById("unidade").value = morador.unidade;
-        document.getElementById("status").value = morador.status;
-
-        // Abre o modal
-        document.querySelector(".modal-header h3").innerText = "Editar Morador";
-        modal.classList.add("active");
-    };
-
     // ==========================================
-    // 3. RENDERIZAÇÃO (Desenhar na Tela)
+    // 4. RENDERIZAÇÃO
     // ==========================================
     function renderizarTabela() {
         tabelaBody.innerHTML = "";
 
         if (moradoresCache.length === 0) {
-            tabelaBody.innerHTML =
-                '<tr><td colspan="5" style="text-align:center; padding: 20px;">Nenhum morador cadastrado.</td></tr>';
+            tabelaBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Nenhum morador encontrado.</td></tr>';
             return;
         }
 
         moradoresCache.forEach((m) => {
             const tr = document.createElement("tr");
-
-            // Definição das cores das badges
             const badgeClass = m.status === "ok" ? "status-ok" : "status-late";
             const badgeText = m.status === "ok" ? "Em dia" : "Atrasado";
+
+            // Se for o Dono, vê Lápis e Lixeira.
+            // Se for Morador, vê Cadeado. 🔒
+            const botoesAcao = souODono 
+                ? `
+                    <button class="action-btn" onclick="editarMorador(${m.id})"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="action-btn" onclick="abrirModalExclusao(${m.id})" style="color: #ef4444;"><i class="fa-regular fa-trash-can"></i></button>
+                  `
+                : `<span style="color:#cbd5e1; font-size:0.8rem;" title="Acesso Restrito"><i class="fa-solid fa-lock"></i></span>`;
 
             tr.innerHTML = `
                 <td>
                     <div class="user-cell">
-                        <img src="${m.img}" class="user-avatar" alt="${m.nome}">
+                        <img src="${m.img || 'https://ui-avatars.com/api/?name=User'}" class="user-avatar" alt="${m.nome}">
                         <div>
                             <strong>${m.nome}</strong><br>
                             <small style="color: #64748b;">${m.tipo}</small>
@@ -170,8 +215,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${m.celular}</td>
                 <td><span class="status-badge ${badgeClass}">${badgeText}</span></td>
                 <td>
-                    <button class="action-btn" onclick="editarMorador(${m.id})"><i class="fa-regular fa-pen-to-square"></i></button>
-                    <button class="action-btn" onclick="deletarMorador(${m.id})" style="color: #ef4444;"><i class="fa-regular fa-trash-can"></i></button>
+                    ${botoesAcao}
                 </td>
             `;
             tabelaBody.appendChild(tr);
@@ -179,58 +223,69 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function atualizarContadores() {
-        // Exemplo: Atualiza o card de "Unidades" na Home
-        const unidadesCount = document.querySelector(
-            ".stat-card:nth-child(3) .stat-value"
-        );
+        const unidadesCount = document.querySelector(".stat-card:nth-child(3) .stat-value");
         if (unidadesCount) unidadesCount.innerText = `${moradoresCache.length}/50`;
     }
 
     // ==========================================
-    // 4. EVENTOS (Cliques e Form)
+    // 5. EVENTOS
     // ==========================================
+    const btnNovoMorador = document.getElementById("btn-novo-morador");
+    const btnFecharModal = document.querySelector(".close-modal");
 
-    // Abrir Modal (Limpo para cadastro)
     if (btnNovoMorador) {
         btnNovoMorador.addEventListener("click", (e) => {
             e.preventDefault();
             idEditando = null;
             formMorador.reset();
             document.querySelector(".modal-header h3").innerText = "Novo Morador";
-            modal.classList.add("active");
+            modalCadastro.classList.add("active");
         });
     }
 
-    // Fechar Modal
-    function fecharModal() {
-        modal.classList.remove("active");
+    function fecharModalCadastro() {
+        modalCadastro.classList.remove("active");
     }
-    if (btnFecharModal) btnFecharModal.addEventListener("click", fecharModal);
+    if (btnFecharModal) btnFecharModal.addEventListener("click", fecharModalCadastro);
 
-    // Salvar (Submit do Form)
     if (formMorador) {
         formMorador.addEventListener("submit", (e) => {
             e.preventDefault();
-
             const nome = document.getElementById("nome").value;
-
             const dados = {
                 nome: nome,
                 celular: document.getElementById("celular").value,
                 tipo: document.getElementById("tipo").value,
                 unidade: document.getElementById("unidade").value,
                 status: document.getElementById("status").value,
-                // Gera avatar aleatório se for novo, ou mantém o que tem
                 img: `https://ui-avatars.com/api/?name=${nome}&background=random`,
             };
-
             salvarMorador(dados);
         });
     }
 
-    // NAVEGAÇÃO SPA (Do código anterior, mantida pra não quebrar)
+    // Edição
+    window.editarMorador = (id) => {
+        if (!souODono) return; 
+
+        const morador = moradoresCache.find((m) => m.id === id);
+        if (!morador) return;
+
+        idEditando = id;
+        document.getElementById("nome").value = morador.nome;
+        document.getElementById("celular").value = morador.celular;
+        document.getElementById("tipo").value = morador.tipo;
+        document.getElementById("unidade").value = morador.unidade;
+        document.getElementById("status").value = morador.status;
+
+        document.querySelector(".modal-header h3").innerText = "Editar Morador";
+        modalCadastro.classList.add("active");
+    };
+
+    // Navegação Sidebar
     const menuLinks = document.querySelectorAll(".sidebar-menu .menu-item");
     const sections = document.querySelectorAll(".view-section");
+    
     menuLinks.forEach((link) => {
         link.addEventListener("click", (e) => {
             if (link.classList.contains("logout")) return;
@@ -238,12 +293,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             menuLinks.forEach((l) => l.classList.remove("active"));
             link.classList.add("active");
 
+            const spanText = link.querySelector("span").innerText;
             const targetId = {
                 "Visão Geral": "view-dashboard",
-                Relatórios: "view-dashboard",
-                Moradores: "view-moradores",
-                Reservas: "view-dashboard",
-            }[link.querySelector("span").innerText];
+                "Relatórios": "view-dashboard",
+                "Moradores": "view-moradores",
+                "Reservas": "view-dashboard",
+            }[spanText];
 
             sections.forEach((s) => {
                 s.classList.remove("active");
@@ -252,22 +308,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    // Inicialização
     carregarMoradores();
-
-    // ==========================================
-    // REALTIME (O Espião do Banco) 🕵️‍♂️
-    // ==========================================
-    // Isso faz o site "escutar" o banco de dados
-    supabase
-        .channel("tabela-moradores")
-        .on(
-            "postgres_changes",
-            { event: "*", schema: "public", table: "moradores" },
-            (payload) => {
-                console.log("Alteração detectada!", payload);
-                carregarMoradores(); // Recarrega a tabela sozinho
-            }
-        )
-        .subscribe();
 });

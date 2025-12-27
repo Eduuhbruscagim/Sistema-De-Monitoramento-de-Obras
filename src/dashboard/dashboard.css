@@ -907,3 +907,12 @@ body {
     display: flex;
     gap: 16px;
 }
+
+/* Ajuste Específico para a Coluna de Ações */
+.glass-table th:last-child,
+.glass-table td:last-child {
+    text-align: center;
+    /* Centraliza horizontalmente */
+    vertical-align: middle;
+    /* Centraliza verticalmente */
+}
