@@ -61,15 +61,23 @@ body.about-page::before {
     align-items: center;
     padding: 15px 30px !important;
     
-    /* Vidro Flutuante */
-    background: rgba(255, 255, 255, 0.6) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    /* === O SEGREDO DA APPLE === */
+    
+    /* 1. Menos branco, mais transparência */
+    background: rgba(255, 255, 255, 0.45) !important; 
+    
+    /* 2. O Pulo do Gato: saturate(180%) faz as cores do fundo "estourarem" no vidro */
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    
+    /* 3. Borda mais sutil (sem border-style, usando shadow interna pra simular espessura do vidro) */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
     
     border-radius: 100px;
     z-index: 1000;
-    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
 

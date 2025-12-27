@@ -60,7 +60,6 @@ body {
 
 /* Apresentação 3D do Produto */
 .hero-image {
-    /* Não precisa mais de perspective aqui */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,8 +77,8 @@ body {
 }
 
 .hero-image:hover .laptop-mockup {
-    /* Só aumenta um pouquinho, sem girar */
-    transform: scale(1.03) translateY(-10px);
+
+    transform: scale(1.30) translateY(-10px);
     filter: drop-shadow(0 50px 80px rgba(37, 99, 235, 0.35));
 }
 
