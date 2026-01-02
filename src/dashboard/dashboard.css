@@ -25,6 +25,11 @@ body {
     color: #1f2937;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
+
 .dashboard-container {
     display: flex;
     min-height: 100vh;
@@ -478,7 +483,6 @@ body {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
-    /* Garante que não quebre em telas muito pequenas */
 }
 
 .glass-table th {
@@ -675,8 +679,6 @@ body {
     }
 }
 
-/* --- SPA LOGIC (O Mágico do JS) --- */
-
 /* Esconde a seção que não está ativa */
 .view-section {
     display: none;
@@ -826,7 +828,7 @@ body {
     backdrop-filter: blur(5px);
     z-index: 2000;
 
-    /* O SEGREDO DO SUMIÇO */
+
     display: none;
 
     align-items: center;
@@ -963,11 +965,11 @@ body {
 
 /* Tipos de Toast */
 .toast.success {
-    border-left: 4px solid #10b981;
+    border-left: 4px solid #3b82f6;
 }
 
 .toast.success i {
-    color: #10b981;
+    color: #3b82f6;
 }
 
 .toast.error {
@@ -1009,7 +1011,6 @@ body {
 @media (max-width: 480px) {
     .modal-glass {
         padding: 20px;
-        /* Reduz o preenchimento interno para ganhar espaço */
     }
 
     .form-row {
@@ -1020,5 +1021,160 @@ body {
 
     .modal-header h3 {
         font-size: 1.2rem;
+    }
+}
+
+/* ==========================================================================
+   TABELA DE RESERVAS ISOLADA (SEM REAPROVEITAMENTO)
+   ========================================================================== */
+
+/* 1. ESTILO BASE (DESKTOP) - Recriando o visual do vidro apenas para esta tabela */
+.tabela-reservas-isolada {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    /* No desktop mantém largura */
+}
+
+.tabela-reservas-isolada th {
+    text-align: left;
+    padding: 16px 24px;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tabela-reservas-isolada td {
+    padding: 16px 24px;
+    color: #1e293b;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    vertical-align: middle;
+    text-align: left;
+}
+
+/* Badge (Pílula Azul) */
+.badge-area {
+    display: inline;
+    background: transparent;
+    color: #1e293b;
+    /* mesma cor padrão do td */
+    border-radius: 0;
+    font-weight: 600;
+    /* um pouco menos chamativo que 700 */
+    font-size: 0.95rem;
+    /* igual ao td */
+    padding: 0;
+}
+
+/* Reservado por (desktop e mobile) - mantém tudo na MESMA linha */
+.tabela-reservas-isolada .reserva-pessoa {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    line-height: 1.2;
+}
+
+.tabela-reservas-isolada .reserva-unidade {
+    color: #64748b;
+    font-size: 0.9em;
+    /* levemente menor, mas alinhado pela baseline */
+    line-height: 1.2;
+}
+
+
+/* 2. MOBILE: MODO CARD (um embaixo do outro) */
+@media (max-width: 768px) {
+
+    .tabela-reservas-isolada {
+        display: block;
+        min-width: 0;
+    }
+
+    /* Esconde cabeçalho */
+    .tabela-reservas-isolada thead {
+        display: none;
+    }
+
+    .tabela-reservas-isolada tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* O CARD BRANCO */
+    .tabela-reservas-isolada tr {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: #ffffff;
+        border: 1px solid #f1f5f9;
+        border-radius: 24px;
+        padding: 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        gap: 12px;
+    }
+
+    /* AS LINHAS (Células) */
+    .tabela-reservas-isolada td {
+        display: flex;
+        align-items: baseline;
+        /* <<< FIX PRINCIPAL (alinha textos na mesma linha) */
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0;
+        border: none;
+        text-align: left;
+        line-height: 1.2;
+        /* ajuda a padronizar a altura da linha */
+    }
+
+    /* O RÓTULO (DATA LABEL) */
+    .tabela-reservas-isolada td::before {
+        content: attr(data-label) ": ";
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-right: 8px;
+        min-width: auto;
+        line-height: 1.2;
+    }
+
+    /* --- AJUSTES ESPECÍFICOS --- */
+
+    /* DATA: Destaque no topo */
+    .tabela-reservas-isolada .td-destaque {
+        order: -1;
+        margin-bottom: 5px;
+    }
+
+    .tabela-reservas-isolada .td-destaque strong {
+        font-size: 1.1rem;
+        color: #0f172a;
+        font-weight: 800;
+    }
+
+    .tabela-reservas-isolada .td-destaque::before {
+        display: none;
+    }
+
+    /* AÇÕES: Fixo no topo direito */
+    .tabela-reservas-isolada .td-acao {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: auto;
+    }
+
+    .tabela-reservas-isolada .td-acao::before {
+        display: none;
+    }
+
+    /* Fix para "Nenhuma Reserva" */
+    .tabela-reservas-isolada tr.no-reservas {
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.6);
     }
 }
