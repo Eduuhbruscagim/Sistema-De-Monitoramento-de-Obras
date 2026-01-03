@@ -209,13 +209,13 @@
         } else {
             // SUCESSO
             // Como usamos Trigger no banco, se o Auth criou, o perfil já existe (ou existirá em milissegundos).
-            feedbackBox.innerText = "Cadastro realizado!.";
+            feedbackBox.innerText = "Cadastro realizado!";
             feedbackBox.classList.add("success");
             feedbackBox.style.display = "block";
 
             setTimeout(() => {
                 window.location.href = "login.html";
-            }, 3000);
+            }, 1500);
         }
       }
 
