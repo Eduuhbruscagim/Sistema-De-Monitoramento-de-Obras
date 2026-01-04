@@ -622,21 +622,22 @@ body.modal-open{ overflow: hidden; }
   /* Remove cabeçalhos */
   .tabela-moradores thead,
   .tabela-ocorrencias thead,
-  .tabela-reservas-isolada thead{ display: none; }
+  .tabela-reservas-isolada thead,
+  .tabela-caixa-extrato thead{ display: none; }
 
-  .tabela-moradores, .tabela-ocorrencias, .tabela-reservas-isolada{
+  .tabela-moradores, .tabela-ocorrencias, .tabela-reservas-isolada, .tabela-caixa-extrato{
     display: block;
     min-width: 0;
   }
 
-  .tabela-moradores tbody, .tabela-ocorrencias tbody, .tabela-reservas-isolada tbody{
+  .tabela-moradores tbody, .tabela-ocorrencias tbody, .tabela-reservas-isolada tbody, .tabela-caixa-extrato tbody{
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
   /* Estilo do Card (Tr) - Unificado */
-  .tabela-moradores tr, .tabela-ocorrencias tr, .tabela-reservas-isolada tr{
+  .tabela-moradores tr, .tabela-ocorrencias tr, .tabela-reservas-isolada tr, .tabela-caixa-extrato tr{
     display: flex;
     flex-direction: column;
     position: relative;
@@ -648,7 +649,7 @@ body.modal-open{ overflow: hidden; }
     box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
   }
 
-  .tabela-moradores td, .tabela-ocorrencias td, .tabela-reservas-isolada td{
+  .tabela-moradores td, .tabela-ocorrencias td, .tabela-reservas-isolada td, .tabela-caixa-extrato td{
     display: block;
     padding: 8px 0;
     border: none;
@@ -663,10 +664,12 @@ body.modal-open{ overflow: hidden; }
   /* Destaque Data (Primeira linha) */
   .tabela-moradores td:nth-child(1),
   .tabela-ocorrencias td:nth-child(1),
-  .tabela-reservas-isolada td:nth-child(1){
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    padding-bottom: 16px;
-    margin-bottom: 8px;
+  .tabela-reservas-isolada td:nth-child(1),
+  .tabela-caixa-extrato td:nth-child(1){
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+    padding-bottom: 16px !important;
+    margin-bottom: 8px !important;
+    display: block !important;
   }
 
   /* Botão de Ação (Flutuante) */
@@ -676,6 +679,14 @@ body.modal-open{ overflow: hidden; }
     right: 16px;
     width: auto !important;
     padding: 0 !important;
+    z-index: 2;
+  }
+  
+  /* Garante que a primeira td sempre tenha a linha separadora, mesmo com td-acao */
+  .tabela-ocorrencias tr td.td-destaque{
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+    padding-bottom: 16px !important;
+    margin-bottom: 8px !important;
   }
 
   /* === LABELS (Cinza claro e negrito) === */
@@ -686,11 +697,16 @@ body.modal-open{ overflow: hidden; }
     margin-right: 8px;
   }
 
-  /* --- OCORRÊNCIAS --- */
+  /* --- OCORRÊNCIAS (Admin) --- */
   .tabela-ocorrencias td:nth-child(2)::before{ content: "Ocorrência : "; }
   .tabela-ocorrencias td:nth-child(3)::before{ content: "Morador : "; }
   .tabela-ocorrencias td:nth-child(4)::before{ content: "Contato : "; }
   .tabela-ocorrencias td:nth-child(5)::before{ content: "Status : "; }
+  
+  /* --- OCORRÊNCIAS (Morador) - Ajusta labels quando é view de morador --- */
+  .tabela-ocorrencias.morador-view td:nth-child(2)::before{ content: "Ocorrência : "; }
+  .tabela-ocorrencias.morador-view td:nth-child(3)::before{ content: "Status : "; }
+  .tabela-ocorrencias.morador-view td:nth-child(4)::before{ display: none; }
 
   /* TÍTULO DA OCORRÊNCIA (Preto Escuro) */
   .tabela-ocorrencias td:nth-child(2) {
@@ -712,6 +728,34 @@ body.modal-open{ overflow: hidden; }
   .tabela-moradores td:nth-child(2)::before{ content: "Unidade : "; }
   .tabela-moradores td:nth-child(3)::before{ content: "Contato : "; }
   .tabela-moradores td:nth-child(4)::before{ content: "Situação : "; }
+
+  /* --- CAIXA EXTRATO --- */
+  .tabela-caixa-extrato td:nth-child(2)::before{ content: "Tipo : "; }
+  .tabela-caixa-extrato td:nth-child(3)::before{ content: "Valor : "; }
+  .tabela-caixa-extrato td:nth-child(4)::before{ content: "Descrição : "; }
+  
+  /* Ajuste de alinhamento para Descrição no Extrato do Caixa */
+  .tabela-caixa-extrato td:nth-child(4){
+    display: flex !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 8px;
+  }
+  
+  .tabela-caixa-extrato td:nth-child(4)::before{
+    flex-shrink: 0;
+    margin-right: 0;
+    margin-top: 0;
+    display: inline-block;
+  }
+  
+  /* Garante que o conteúdo quebra corretamente */
+  .tabela-caixa-extrato td:nth-child(4) > *{
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -796,10 +840,86 @@ body.modal-open{ overflow: hidden; }
 }
 
 .form-row{ display: flex; gap: 16px; }
+/* Modal do extrato do caixa - mais largo */
+#modal-caixa-historico .modal-glass{
+  max-width: 800px;
+}
+
+@media (max-width: 768px){
+  #modal-caixa-historico .modal-glass{
+    width: 95%;
+    max-width: 95%;
+    padding: 20px;
+  }
+}
+
 @media (max-width: 480px){
   .modal-glass{ padding: 20px; }
   .form-row{ flex-direction: column; gap: 0; }
   .modal-header h3{ font-size: 1.2rem; }
+  
+  /* Padroniza botões dos modais de confirmação no mobile */
+  /* Seletores específicos para os modais de confirmação */
+  #modal-confirm-delete div[style*="display:flex"],
+  #modal-confirm-delete-reserva div[style*="display:flex"],
+  #modal-confirm-delete-ocorrencia div[style*="display:flex"]{
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    width: 100% !important;
+    justify-content: stretch !important;
+    align-items: stretch !important;
+  }
+  
+  /* Seletores muito específicos para sobrescrever estilos inline */
+  /* Base comum para TODOS os botões */
+  #modal-confirm-delete button.btn,
+  #modal-confirm-delete-reserva button.btn,
+  #modal-confirm-delete-ocorrencia button.btn{
+    min-height: 44px !important;
+    height: 44px !important;
+    padding: 12px 10px !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    line-height: 1.2 !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 1 0 !important;
+    flex-basis: 0 !important;
+    min-width: 0 !important;
+    width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  
+  /* Estilo específico para btn-outline (Cancelar) */
+  #modal-confirm-delete button.btn-outline,
+  #modal-confirm-delete-reserva button.btn-outline,
+  #modal-confirm-delete-ocorrencia button.btn-outline{
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 1px solid #cbd5e1 !important;
+    border-color: #cbd5e1 !important;
+    color: #64748b !important;
+  }
+  
+  /* Estilo específico para btn-primary (botão de excluir) */
+  #modal-confirm-delete button.btn-primary,
+  #modal-confirm-delete-reserva button.btn-primary,
+  #modal-confirm-delete-ocorrencia button.btn-primary{
+    background: #ef4444 !important;
+    background-color: #ef4444 !important;
+    border: none !important;
+    border-width: 0 !important;
+    color: white !important;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -935,11 +1055,8 @@ body.modal-open{ overflow: hidden; }
     line-height: 1.2;
   }
 
-  /* CORREÇÃO SOLICITADA: Adicionado espaço antes do dois-pontos também.
-     Ex: content: attr(data-label) " :";
-  */
   .tabela-reservas-isolada td::before{
-    content: attr(data-label) " :";
+    content: attr(data-label) ": ";
     color: #64748b;
     font-weight: 600;
     font-size: 0.9rem;
@@ -967,6 +1084,21 @@ body.modal-open{ overflow: hidden; }
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.6);
+  }
+
+  /* Remove o ::before do estado vazio e centraliza o conteúdo */
+  .tabela-reservas-isolada tr.no-reservas td::before{
+    display: none !important;
+    content: none !important;
+  }
+
+  .tabela-reservas-isolada tr.no-reservas td{
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
   }
 }
 

@@ -1,10 +1,10 @@
-import { supabase } from '../services/supabase.js';
+import { supabase } from "../services/supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   // ==========================================
   // 1. HELPERS & SEGURANÇA
   // ==========================================
-  
+
   // Função que blinda seu front-end contra XSS
   const safe = (str) => {
     if (!str) return "";
@@ -18,7 +18,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const formatBRL = (value) => {
     const n = Number(value || 0);
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(n);
+  };
+
+  const formatBRLInteiro = (value) => {
+    const n = Math.round(Number(value || 0));
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(n);
   };
 
   const ajustarDataBR = (isoOrDate) => {
@@ -42,16 +55,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     emailParaDeletar: null,
     reservaParaDeletar: null,
     ocorrenciaParaDeletar: null,
+    carregandoReservas: false,
+    carregandoOcorrencias: false,
   };
 
-  const isAdmin = () => State.usuarioLogado?.cargo === "Dono" || State.usuarioLogado?.cargo === "admin";
+  const isAdmin = () =>
+    State.usuarioLogado?.cargo === "Dono" ||
+    State.usuarioLogado?.cargo === "admin";
 
   // ==========================================
   // 3. SERVIÇOS
   // ==========================================
   const MoradorService = {
     async buscarPerfilUsuario() {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) return null;
 
       const { data, error } = await supabase
@@ -65,7 +84,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
 
     async listarTodos() {
-      return await supabase.from("moradores").select("*").order("id", { ascending: false });
+      return await supabase
+        .from("moradores")
+        .select("*")
+        .order("id", { ascending: false });
     },
 
     async salvar(dados, id) {
@@ -84,12 +106,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const ReservaService = {
     async listar() {
-      return await supabase.from("vw_reservas_detalhes").select("*").order("data", { ascending: true });
+      return await supabase
+        .from("vw_reservas_detalhes")
+        .select("*")
+        .order("data", { ascending: true });
     },
 
     async criar(area, data) {
       const userId = await getMeuUserId();
-      return await supabase.from("reservas").insert([{ user_id: userId, area, data }]);
+      return await supabase
+        .from("reservas")
+        .insert([{ user_id: userId, area, data }]);
     },
 
     async deletar(id) {
@@ -99,12 +126,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const OcorrenciaService = {
     async listar() {
-      return await supabase.from("vw_ocorrencias_detalhes").select("*").order("created_at", { ascending: false });
+      return await supabase
+        .from("vw_ocorrencias_detalhes")
+        .select("*")
+        .order("created_at", { ascending: false });
     },
 
     async criar(titulo, descricao) {
       const userId = await getMeuUserId();
-      return await supabase.from("ocorrencias").insert([{ user_id: userId, titulo, descricao }]);
+      return await supabase
+        .from("ocorrencias")
+        .insert([{ user_id: userId, titulo, descricao }]);
     },
 
     async deletar(id) {
@@ -127,7 +159,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async movimentar(tipo, valor, descricao) {
       const userId = await getMeuUserId();
-      return await supabase.from("caixa_movimentos").insert([{ user_id: userId, tipo, valor, descricao }]);
+      return await supabase
+        .from("caixa_movimentos")
+        .insert([{ user_id: userId, tipo, valor, descricao }]);
     },
   };
 
@@ -176,16 +210,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     inputUnidadeBloco: document.getElementById("unidade-bloco"),
     inputStatus: document.getElementById("status"),
 
-    modalExclusaoReserva: document.getElementById("modal-confirm-delete-reserva"),
-    btnConfirmDeleteReserva: document.getElementById("btn-confirm-delete-reserva"),
+    modalExclusaoReserva: document.getElementById(
+      "modal-confirm-delete-reserva"
+    ),
+    btnConfirmDeleteReserva: document.getElementById(
+      "btn-confirm-delete-reserva"
+    ),
 
     btnNovaOcorrencia: document.getElementById("btn-nova-ocorrencia"),
     btnNovaOcorrencia2: document.getElementById("btn-nova-ocorrencia-2"),
     modalOcorrencia: document.getElementById("modal-ocorrencia"),
     formOcorrencia: document.getElementById("form-ocorrencia"),
     listaOcorrencias: document.getElementById("lista-ocorrencias"),
-    modalExclusaoOcorrencia: document.getElementById("modal-confirm-delete-ocorrencia"),
-    btnConfirmDeleteOcorrencia: document.getElementById("btn-confirm-delete-ocorrencia"),
+    modalExclusaoOcorrencia: document.getElementById(
+      "modal-confirm-delete-ocorrencia"
+    ),
+    btnConfirmDeleteOcorrencia: document.getElementById(
+      "btn-confirm-delete-ocorrencia"
+    ),
 
     modalCaixa: document.getElementById("modal-caixa"),
     formCaixa: document.getElementById("form-caixa"),
@@ -215,10 +257,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (this.userName) this.userName.innerText = nome;
 
       const cargoAmigavel =
-        perfil.cargo === "Dono" ? "Dono" : perfil.cargo === "admin" ? "Síndico" : "Morador";
+        perfil.cargo === "Dono"
+          ? "Dono"
+          : perfil.cargo === "admin"
+          ? "Síndico"
+          : "Morador";
       if (this.userRole) this.userRole.innerText = cargoAmigavel;
 
-      if (this.userAvatar) this.userAvatar.innerText = nome.charAt(0).toUpperCase();
+      if (this.userAvatar)
+        this.userAvatar.innerText = nome.charAt(0).toUpperCase();
     },
 
     preencherModalMorador(m) {
@@ -247,8 +294,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       this.tabelaMoradores.innerHTML = "";
       if (!moradores || moradores.length === 0) {
-        this.tabelaMoradores.innerHTML =
-          `<tr><td colspan="5" style="text-align:center;padding:20px">Nenhum registro encontrado.</td></tr>`;
+        this.tabelaMoradores.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px">Nenhum registro encontrado.</td></tr>`;
         return;
       }
 
@@ -257,16 +303,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const badgeClass = m.status === "ok" ? "status-ok" : "status-late";
         const badgeText = m.status === "ok" ? "Em dia" : "Atrasado";
-        
+
         const img =
-          m.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nome || "User")}&background=random`;
+          m.img ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            m.nome || "User"
+          )}&background=random`;
 
         const actions = podeEditar
           ? `
-            <button class="action-btn btn-editar" data-id="${m.id}" title="Editar">
+            <button class="action-btn btn-editar" data-id="${
+              m.id
+            }" title="Editar">
               <i class="fa-regular fa-pen-to-square"></i>
             </button>
-            <button class="action-btn btn-excluir" data-email="${safe(m.email)}" style="color:#ef4444" title="Excluir">
+            <button class="action-btn btn-excluir" data-email="${safe(
+              m.email
+            )}" style="color:#ef4444" title="Excluir">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           `
@@ -310,7 +363,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       document.addEventListener("keydown", (e) => {
         if (e.key !== "Escape") return;
-        const aberto = this.overlays.find((m) => m.classList.contains("active"));
+        const aberto = this.overlays.find((m) =>
+          m.classList.contains("active")
+        );
         if (aberto) this.close(aberto);
       });
     },
@@ -322,7 +377,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     close(overlay) {
       if (!overlay) return;
       overlay.classList.remove("active");
-      const algumAberto = this.overlays.some((m) => m.classList.contains("active"));
+      const algumAberto = this.overlays.some((m) =>
+        m.classList.contains("active")
+      );
       if (!algumAberto) document.body.classList.remove("modal-open");
     },
     closeAll() {
@@ -347,7 +404,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (inputData) inputData.min = hoje;
 
       const btnClose = document.querySelector(".close-modal-reserva");
-      if (btnClose) btnClose.addEventListener("click", () => ModalUX.close(this.modal));
+      if (btnClose)
+        btnClose.addEventListener("click", () => ModalUX.close(this.modal));
 
       this.form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -361,7 +419,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { error } = await ReservaService.criar(area, data);
         if (error) {
-          if (error.code === "23505") UI.showToast("Data indisponível! Já existe reserva.", "error");
+          if (error.code === "23505")
+            UI.showToast("Data indisponível! Já existe reserva.", "error");
           else UI.showToast(error.message, "error");
         } else {
           UI.showToast("Reserva confirmada!", "success");
@@ -376,77 +435,94 @@ document.addEventListener("DOMContentLoaded", async () => {
     async carregar() {
       if (!this.lista) return;
 
-      this.lista.innerHTML = `<tr><td colspan="4" style="text-align:center">Carregando...</td></tr>`;
-      const { data, error } = await ReservaService.listar();
-      if (error) {
-        this.lista.innerHTML = `<tr><td colspan="4" style="text-align:center">Erro ao carregar.</td></tr>`;
-        return;
+      // Previne múltiplas chamadas simultâneas
+      if (State.carregandoReservas) return;
+
+      // Verifica se já há conteúdo válido (não é "Carregando..." ou "Erro")
+      const temConteudoValido =
+        this.lista.children.length > 0 &&
+        !this.lista.innerHTML.includes("Carregando") &&
+        !this.lista.innerHTML.includes("Erro ao carregar");
+
+      // Se já tem conteúdo válido, não mostra "Carregando..." imediatamente
+      if (!temConteudoValido) {
+        this.lista.innerHTML = `<tr><td colspan="4" style="text-align:center">Carregando...</td></tr>`;
       }
 
-      const souDono = isAdmin();
-      const meuId = State.usuarioLogado?.user_id;
+      State.carregandoReservas = true;
 
-      const thead = document.getElementById("thead-reservas");
-      if (thead) {
-        thead.innerHTML = souDono
-          ? `<th>Data</th><th>Área</th><th>Reservado Por</th><th>Ações</th>`
-          : `<th>Data</th><th>Área</th><th>Ações</th>`;
-      }
+      try {
+        const { data, error } = await ReservaService.listar();
+        if (error) {
+          this.lista.innerHTML = `<tr><td colspan="4" style="text-align:center">Erro ao carregar.</td></tr>`;
+          return;
+        }
 
-      if (!data || data.length === 0) {
-        const colspan = souDono ? 4 : 3;
-        this.lista.innerHTML = `
-          <tr class="no-reservas">
-            <td colspan="${colspan}">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px">
-                <i class="fa-regular fa-face-smile-beam" style="font-size:1.5rem;color:#2563eb"></i>
-                <span>Nenhuma reserva futura. Aproveite!</span>
-              </div>
-            </td>
-          </tr>
-        `;
-        return;
-      }
+        const souDono = isAdmin();
+        const meuId = State.usuarioLogado?.user_id;
 
-      this.lista.innerHTML = "";
-      data.forEach((r) => {
-        const dataObj = ajustarDataBR(r.data);
-        const dataFormatada = dataObj.toLocaleDateString("pt-BR");
+        const thead = document.getElementById("thead-reservas");
+        if (thead) {
+          thead.innerHTML = souDono
+            ? `<th>Data</th><th>Área</th><th>Reservado Por</th><th>Ações</th>`
+            : `<th>Data</th><th>Área</th><th>Ações</th>`;
+        }
 
-        const reservadoPorId = r.user_id;
-        const possoCancelar = souDono || reservadoPorId === meuId;
+        if (!data || data.length === 0) {
+          const colspan = souDono ? 4 : 3;
+          this.lista.innerHTML = `
+            <tr class="no-reservas">
+              <td colspan="${colspan}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px">
+                  <i class="fa-regular fa-face-smile-beam" style="font-size:1.5rem;color:#2563eb"></i>
+                  <span>Nenhuma reserva futura. Aproveite!</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
 
-        const btnAcao = possoCancelar
-          ? `<button class="action-btn" onclick="deletarReserva(${r.id})" style="color:#ef4444" title="Cancelar Reserva">
+        this.lista.innerHTML = "";
+        data.forEach((r) => {
+          const dataObj = ajustarDataBR(r.data);
+          const dataFormatada = dataObj.toLocaleDateString("pt-BR");
+
+          const reservadoPorId = r.user_id;
+          const possoCancelar = souDono || reservadoPorId === meuId;
+
+          const btnAcao = possoCancelar
+            ? `<button class="action-btn" onclick="deletarReserva(${r.id})" style="color:#ef4444" title="Cancelar Reserva">
                <i class="fa-regular fa-trash-can"></i>
              </button>`
-          : `<button class="action-btn action-btn-locked" type="button" title="Apenas o dono da reserva pode cancelar" aria-label="Bloqueado">
+            : `<button class="action-btn action-btn-locked" type="button" title="Apenas o dono da reserva pode cancelar" aria-label="Bloqueado">
                <i class="fa-solid fa-lock"></i>
              </button>`;
 
-        const tr = document.createElement("tr");
+          const tr = document.createElement("tr");
 
-        const nomeQuem = safe(r.nome_morador || "Morador");
-        const unidadeQuem = r.unidade_morador ? ` — ${safe(r.unidade_morador)}` : "";
-        const infoMorador = `${nomeQuem}${unidadeQuem}`;
+          const nomeQuem = safe(r.nome_morador || "Morador");
 
-        if (souDono) {
-          tr.innerHTML = `
+          if (souDono) {
+            tr.innerHTML = `
             <td data-label="Data" class="td-destaque">${dataFormatada}</td>
             <td data-label="Área" class="td-titulo">${safe(r.area)}</td>
-            <td data-label="Reservado Por" class="td-texto">${infoMorador}</td>
+            <td data-label="Reservado Por" class="td-texto">${nomeQuem}</td>
             <td class="td-acao">${btnAcao}</td>
           `;
-        } else {
-          tr.innerHTML = `
+          } else {
+            tr.innerHTML = `
             <td data-label="Data" class="td-destaque">${dataFormatada}</td>
             <td data-label="Área" class="td-titulo">${safe(r.area)}</td>
             <td class="td-acao">${btnAcao}</td>
           `;
-        }
+          }
 
-        this.lista.appendChild(tr);
-      });
+          this.lista.appendChild(tr);
+        });
+      } finally {
+        State.carregandoReservas = false;
+      }
     },
   };
 
@@ -457,59 +533,113 @@ document.addEventListener("DOMContentLoaded", async () => {
     async carregar() {
       if (!UI.listaOcorrencias) return;
 
-      UI.listaOcorrencias.innerHTML =
-        `<tr><td colspan="6" style="text-align:center;padding:18px">Carregando...</td></tr>`;
+      // Previne múltiplas chamadas simultâneas
+      if (State.carregandoOcorrencias) return;
 
-      const { data, error } = await OcorrenciaService.listar();
-      if (error) {
-        UI.listaOcorrencias.innerHTML =
-          `<tr><td colspan="6" style="text-align:center;padding:18px">Erro ao carregar.</td></tr>`;
-        return;
-      }
+      State.carregandoOcorrencias = true;
 
-      if (!data || data.length === 0) {
-        UI.listaOcorrencias.innerHTML =
-          `<tr><td colspan="6" style="text-align:center;padding:18px">Nenhuma ocorrência registrada.</td></tr>`;
-        return;
-      }
+      try {
+        const souAdmin = isAdmin();
 
-      UI.listaOcorrencias.innerHTML = data
-        .map((o) => {
-          const d = new Date(o.created_at).toLocaleDateString("pt-BR");
+        // Atualiza o thead baseado no perfil do usuário
+        const tabelaOcorrencias = document.querySelector(".tabela-ocorrencias");
+        const theadOcorrencias = document.querySelector(
+          ".tabela-ocorrencias thead tr"
+        );
+        if (theadOcorrencias && tabelaOcorrencias) {
+          if (souAdmin) {
+            tabelaOcorrencias.classList.remove("morador-view");
+            theadOcorrencias.innerHTML = `
+              <th>Data</th>
+              <th>Ocorrência</th>
+              <th>Morador</th>
+              <th>Contato</th>
+              <th>Status</th>
+              <th>Ações</th>
+            `;
+          } else {
+            tabelaOcorrencias.classList.add("morador-view");
+            theadOcorrencias.innerHTML = `
+              <th>Data</th>
+              <th>Ocorrência</th>
+              <th>Status</th>
+              <th>Ações</th>
+            `;
+          }
+        }
 
-          const nomeReg = safe(o.registrador_nome || "Anônimo");
-          const unidadeReg = o.registrador_unidade ? ` — ${safe(o.registrador_unidade)}` : "";
-          const tituloSafe = safe(o.titulo);
-          const telSafe = safe(o.registrador_celular || "-");
-          
-          const infoMorador = `${nomeReg}${unidadeReg}`;
-          const podeExcluir = isAdmin() || o.minha === true;
+        const colspan = souAdmin ? 6 : 4;
 
-          const btnAcao = podeExcluir
-            ? `<button class="action-btn" onclick="deletarOcorrencia(${o.id})" style="color:#ef4444" title="Excluir ocorrência">
+        // Verifica se já há conteúdo válido (não é "Carregando..." ou "Erro")
+        const temConteudoValido =
+          UI.listaOcorrencias.children.length > 0 &&
+          !UI.listaOcorrencias.innerHTML.includes("Carregando") &&
+          !UI.listaOcorrencias.innerHTML.includes("Erro ao carregar");
+
+        // Se já tem conteúdo válido, não mostra "Carregando..." imediatamente
+        if (!temConteudoValido) {
+          UI.listaOcorrencias.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;padding:18px">Carregando...</td></tr>`;
+        }
+
+        const { data, error } = await OcorrenciaService.listar();
+
+        if (error) {
+          UI.listaOcorrencias.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;padding:18px">Erro ao carregar.</td></tr>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          UI.listaOcorrencias.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;padding:18px">Nenhuma ocorrência registrada.</td></tr>`;
+          return;
+        }
+
+        UI.listaOcorrencias.innerHTML = data
+          .map((o) => {
+            const d = new Date(o.created_at).toLocaleDateString("pt-BR");
+
+            const nomeReg = safe(o.registrador_nome || "Anônimo");
+            const tituloSafe = safe(o.titulo);
+            const telSafe = safe(o.registrador_celular || "-");
+            const podeExcluir = souAdmin || o.minha === true;
+
+            const btnAcao = podeExcluir
+              ? `<button class="action-btn" onclick="deletarOcorrencia(${o.id})" style="color:#ef4444" title="Excluir ocorrência">
                  <i class="fa-regular fa-trash-can"></i>
                </button>`
-            : `<button class="action-btn action-btn-locked" type="button" title="Apenas quem registrou pode excluir" aria-label="Bloqueado">
+              : `<button class="action-btn action-btn-locked" type="button" title="Apenas quem registrou pode excluir" aria-label="Bloqueado">
                  <i class="fa-solid fa-lock"></i>
                </button>`;
 
-          return `
-            <tr>
-              <td data-label="Data" class="td-destaque">${d}</td>
-              
-              <td data-label="Ocorrência" class="td-titulo">${tituloSafe}</td>
-
-              <td data-label="Morador" class="td-texto">${infoMorador}</td>
-
-              <td data-label="Contato" class="td-texto"><span style="font-family:monospace;">${telSafe}</span></td>
-
-              <td data-label="Status" class="td-texto" style="text-transform:capitalize">${safe(o.status || "aberta")}</td>
-              
-              <td class="td-acao">${btnAcao}</td>
-            </tr>
-          `;
-        })
-        .join("");
+            if (souAdmin) {
+              return `
+              <tr>
+                <td data-label="Data" class="td-destaque">${d}</td>
+                <td data-label="Ocorrência" class="td-titulo">${tituloSafe}</td>
+                <td data-label="Morador" class="td-texto">${nomeReg}</td>
+                <td data-label="Contato" class="td-texto"><span style="font-family:monospace;">${telSafe}</span></td>
+                <td data-label="Status" class="td-texto" style="text-transform:capitalize">${safe(
+                  o.status || "aberta"
+                )}</td>
+                <td class="td-acao">${btnAcao}</td>
+              </tr>
+            `;
+            } else {
+              return `
+              <tr>
+                <td data-label="Data" class="td-destaque">${d}</td>
+                <td data-label="Ocorrência" class="td-titulo">${tituloSafe}</td>
+                <td data-label="Status" class="td-texto" style="text-transform:capitalize">${safe(
+                  o.status || "aberta"
+                )}</td>
+                <td class="td-acao">${btnAcao}</td>
+              </tr>
+            `;
+            }
+          })
+          .join("");
+      } finally {
+        State.carregandoOcorrencias = false;
+      }
     },
   };
 
@@ -519,34 +649,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function carregarExtratoCaixa() {
     if (!UI.listaCaixaMovimentos) return;
 
-    UI.listaCaixaMovimentos.innerHTML =
-      `<tr><td colspan="4" style="text-align:center;padding:18px">Carregando...</td></tr>`;
+    UI.listaCaixaMovimentos.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:18px">Carregando...</td></tr>`;
 
     const { data, error } = await CaixaService.listarPublico();
     if (error) {
-      UI.listaCaixaMovimentos.innerHTML =
-        `<tr><td colspan="4" style="text-align:center;padding:18px">Erro ao carregar.</td></tr>`;
+      UI.listaCaixaMovimentos.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:18px">Erro ao carregar.</td></tr>`;
       return;
     }
 
     if (!data || data.length === 0) {
-      UI.listaCaixaMovimentos.innerHTML =
-        `<tr><td colspan="4" style="text-align:center;padding:18px">Sem movimentações.</td></tr>`;
+      UI.listaCaixaMovimentos.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:18px">Sem movimentações.</td></tr>`;
       return;
     }
 
     UI.listaCaixaMovimentos.innerHTML = data
       .map((m) => {
         const d = new Date(m.created_at).toLocaleDateString("pt-BR");
-        const tipo = (m.tipo || "").toLowerCase() === "entrada" ? "Entrada" : "Saída";
+        const tipo =
+          (m.tipo || "").toLowerCase() === "entrada" ? "Entrada" : "Saída";
         const sinal = tipo === "Entrada" ? "+" : "-";
 
         return `
           <tr>
-            <td class="td-destaque"><strong>${d}</strong></td>
-            <td class="td-texto">${safe(tipo)}</td>
-            <td class="td-titulo"><strong>${sinal} ${formatBRL(m.valor)}</strong></td>
-            <td class="td-texto">${safe(m.descricao || "-")}</td>
+            <td data-label="Data" class="td-destaque"><strong>${d}</strong></td>
+            <td data-label="Tipo" class="td-texto">${safe(tipo)}</td>
+            <td data-label="Valor" class="td-titulo"><strong>${sinal} ${formatBRL(
+          m.valor
+        )}</strong></td>
+            <td data-label="Descrição" class="td-texto">${safe(
+              m.descricao || "-"
+            )}</td>
           </tr>
         `;
       })
@@ -569,7 +701,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    UI.kpiSaldo.innerText = formatBRL(data?.saldo || 0);
+    UI.kpiSaldo.innerText = formatBRLInteiro(data?.saldo || 0);
     if (UI.kpiSaldoSub) UI.kpiSaldoSub.innerText = "Atualizado em tempo real";
   }
 
@@ -583,11 +715,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const abertas = data.filter((o) => (o.status || "").toLowerCase() === "aberta").length;
-    const urgentes = data.filter((o) => (o.status || "").toLowerCase() === "urgente").length;
+    const abertas = data.filter(
+      (o) => (o.status || "").toLowerCase() === "aberta"
+    ).length;
+    const urgentes = data.filter(
+      (o) => (o.status || "").toLowerCase() === "urgente"
+    ).length;
 
     UI.kpiOcorrencias.innerText = `${abertas} Abertas`;
-    if (UI.kpiOcorrenciasSub) UI.kpiOcorrenciasSub.innerText = `${urgentes} Urgente`;
+    if (UI.kpiOcorrenciasSub)
+      UI.kpiOcorrenciasSub.innerText = `${urgentes} Urgente`;
   }
 
   async function carregarKpiUnidades() {
@@ -627,7 +764,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       UI.recentActivities.innerHTML = `
         <div class="activity-item">
           <div class="activity-icon bg-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
-          <div class="activity-info"><h4>Erro</h4><p>${safe(error.message)}</p></div>
+          <div class="activity-info"><h4>Erro</h4><p>${safe(
+            error.message
+          )}</p></div>
           <span class="activity-time">Agora</span>
         </div>
       `;
@@ -663,7 +802,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const quando = diffDias === 0 ? "Hoje" : `Em ${diffDias}d`;
 
         const linhaInfo = souDono
-          ? `${safe(r.nome_morador || "Morador")} — ${safe(r.unidade_morador || "-")}`
+          ? `${safe(r.nome_morador || "Morador")}`
           : `Data: ${dataBR}`;
 
         return `
@@ -684,41 +823,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   // REALTIME SETUP
   // ==========================================
   function setupRealtime() {
-    const channel = supabase.channel('dashboard-changes');
+    const channel = supabase.channel("dashboard-changes");
 
     channel
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ocorrencias' }, () => {
-        UI.showToast("Nova atualização em Ocorrências", "info");
-        carregarKpiOcorrencias();
-        const view = document.getElementById("view-ocorrencias");
-        if (view && view.classList.contains("active")) UIOcorrencias.carregar();
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'reservas' }, () => {
-        // Reservas afetam o Widget de Atividades Recentes e a Tabela de Reservas
-        carregarAtividadesRecentes();
-        const view = document.getElementById("view-reservas");
-        if (view && view.classList.contains("active")) UIReserva.carregar();
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'caixa_movimentos' }, () => {
-        UI.showToast("Caixa atualizado", "info");
-        carregarSaldo();
-        const modal = document.getElementById("modal-caixa-historico");
-        if (modal && modal.classList.contains("active")) carregarExtratoCaixa();
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'moradores' }, () => {
-        // Afeta KPIs de Unidades
-        carregarKpiUnidades();
-        // Atualiza tabela se estiver vendo
-        const view = document.getElementById("view-moradores");
-        if (view && view.classList.contains("active")) {
-           MoradorService.listarTodos().then(({data}) => {
-             State.moradoresCache = data || [];
-             UI.renderizarTabelaMoradores(State.moradoresCache, isAdmin());
-           });
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "ocorrencias" },
+        () => {
+          carregarKpiOcorrencias();
+          const view = document.getElementById("view-ocorrencias");
+          if (view && view.classList.contains("active"))
+            UIOcorrencias.carregar();
         }
-      })
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "reservas" },
+        () => {
+          // Reservas afetam o Widget de Atividades Recentes e a Tabela de Reservas
+          carregarAtividadesRecentes();
+          const view = document.getElementById("view-reservas");
+          if (view && view.classList.contains("active")) UIReserva.carregar();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "caixa_movimentos" },
+        () => {
+          carregarSaldo();
+          const modal = document.getElementById("modal-caixa-historico");
+          if (modal && modal.classList.contains("active"))
+            carregarExtratoCaixa();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "moradores" },
+        () => {
+          // Afeta KPIs de Unidades
+          carregarKpiUnidades();
+          // Atualiza tabela se estiver vendo
+          const view = document.getElementById("view-moradores");
+          if (view && view.classList.contains("active")) {
+            MoradorService.listarTodos().then(({ data }) => {
+              State.moradoresCache = data || [];
+              UI.renderizarTabelaMoradores(State.moradoresCache, isAdmin());
+            });
+          }
+        }
+      )
       .subscribe();
-      
+
     console.log("📡 Realtime ativo e ouvindo...");
   }
 
@@ -771,9 +926,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     State.usuarioLogado = authData.perfil;
     UI.atualizarSidebar(State.usuarioLogado);
 
-    if (UI.btnAjustarCaixa) UI.btnAjustarCaixa.style.display = isAdmin() ? "flex" : "none";
+    if (UI.btnAjustarCaixa)
+      UI.btnAjustarCaixa.style.display = isAdmin() ? "flex" : "none";
 
-    const { data: moradores, error: errMoradores } = await MoradorService.listarTodos();
+    const { data: moradores, error: errMoradores } =
+      await MoradorService.listarTodos();
     if (errMoradores) throw new Error(errMoradores.message);
 
     State.moradoresCache = moradores || [];
@@ -784,10 +941,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await carregarKPIs();
     await carregarAtividadesRecentes();
-    
+
     // INICIA O REALTIME AQUI
     setupRealtime();
-
   } catch (err) {
     console.error("Erro Fatal:", err);
     UI.showToast(`Erro ao carregar: ${safe(err.message)}`, "error");
@@ -801,6 +957,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (link.classList.contains("logout")) return;
 
       e.preventDefault();
+
+      // Previne múltiplos cliques rápidos
+      if (link.classList.contains("loading")) return;
+      link.classList.add("loading");
+
       const targetId = link.dataset.view || "view-dashboard";
       const title = link.dataset.title || "Visão Geral";
 
@@ -814,13 +975,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       const topTitle = document.querySelector(".top-bar .page-title");
       if (topTitle) topTitle.innerText = title;
 
-      if (targetId === "view-reservas") {
-        await UIReserva.carregar();
-        await carregarAtividadesRecentes();
-      }
+      try {
+        if (targetId === "view-reservas") {
+          // Só carrega se não estiver já carregando
+          if (!State.carregandoReservas) {
+            await UIReserva.carregar();
+          }
+          await carregarAtividadesRecentes();
+        }
 
-      if (targetId === "view-ocorrencias") {
-        await UIOcorrencias.carregar();
+        if (targetId === "view-ocorrencias") {
+          // Só carrega se não estiver já carregando
+          if (!State.carregandoOcorrencias) {
+            await UIOcorrencias.carregar();
+          }
+        }
+      } finally {
+        link.classList.remove("loading");
       }
     });
   });
@@ -852,8 +1023,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!UI.modalOcorrencia) return;
     ModalUX.open(UI.modalOcorrencia);
   };
-  if (UI.btnNovaOcorrencia) UI.btnNovaOcorrencia.addEventListener("click", abrirModalOcorrencia);
-  if (UI.btnNovaOcorrencia2) UI.btnNovaOcorrencia2.addEventListener("click", abrirModalOcorrencia);
+  if (UI.btnNovaOcorrencia)
+    UI.btnNovaOcorrencia.addEventListener("click", abrirModalOcorrencia);
+  if (UI.btnNovaOcorrencia2)
+    UI.btnNovaOcorrencia2.addEventListener("click", abrirModalOcorrencia);
 
   if (UI.formOcorrencia) {
     UI.formOcorrencia.addEventListener("submit", async (e) => {
@@ -900,7 +1073,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const tipo = document.getElementById("cx-tipo")?.value;
       const valor = Number(document.getElementById("cx-valor")?.value);
-      const descricao = document.getElementById("cx-desc")?.value?.trim() || null;
+      const descricao =
+        document.getElementById("cx-desc")?.value?.trim() || null;
 
       const btn = UI.formCaixa.querySelector("button");
       const txt = btn.innerText;
@@ -931,7 +1105,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.disabled = true;
 
       const { error } = await ReservaService.deletar(State.reservaParaDeletar);
-      if (error) UI.showToast(`Erro ao cancelar: ${safe(error.message)}`, "error");
+      if (error)
+        UI.showToast(`Erro ao cancelar: ${safe(error.message)}`, "error");
       else UI.showToast("Reserva cancelada.", "info");
 
       ModalUX.close(UI.modalExclusaoReserva);
@@ -951,8 +1126,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.innerText = "Excluindo...";
       btn.disabled = true;
 
-      const { error } = await OcorrenciaService.deletar(State.ocorrenciaParaDeletar);
-      if (error) UI.showToast(`Erro ao excluir: ${safe(error.message)}`, "error");
+      const { error } = await OcorrenciaService.deletar(
+        State.ocorrenciaParaDeletar
+      );
+      if (error)
+        UI.showToast(`Erro ao excluir: ${safe(error.message)}`, "error");
       else UI.showToast("Ocorrência excluída.", "info");
 
       ModalUX.close(UI.modalExclusaoOcorrencia);
@@ -1010,7 +1188,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         tipo: UI.inputTipo?.value || null,
         status: UI.inputStatus?.value || null,
         unidade: unidade || null,
-        img: `https://ui-avatars.com/api/?name=${encodeURIComponent(UI.inputNome?.value || "User")}&background=random`,
+        img: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          UI.inputNome?.value || "User"
+        )}&background=random`,
       };
 
       const { error } = await MoradorService.salvar(dados, State.idEditando);
@@ -1045,7 +1225,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.disabled = true;
 
       const { error } = await MoradorService.excluir(State.emailParaDeletar);
-      if (error) UI.showToast(`Erro ao excluir: ${safe(error.message)}`, "error");
+      if (error)
+        UI.showToast(`Erro ao excluir: ${safe(error.message)}`, "error");
       else UI.showToast("Morador removido.", "success");
 
       ModalUX.close(UI.modalExclusaoMorador);
