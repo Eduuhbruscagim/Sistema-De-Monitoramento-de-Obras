@@ -2,56 +2,67 @@
 
 ![Preview do Projeto](src/imagens/Mac.webp)
 
-> **Status:** 🚀 Fase 2 Concluída (Front-end Premium & UI Experience)
+> **Status:** 🚀 Fase 3 Concluída (Backend Serverless, Realtime & Security)
 
 ## 📜 Sobre o Projeto
 
-O **Condomínio App** é uma plataforma web *Fullstack Concept* desenvolvida para modernizar a gestão de condomínios residenciais. 
+O **Condomínio App** é uma plataforma web *Fullstack* desenvolvida para modernizar a gestão de condomínios residenciais. 
 
-Diferente de sistemas administrativos tradicionais (focados apenas em tabelas), este projeto prioriza a **Experiência do Usuário (UX)** e a **Estética de Alto Nível**, utilizando conceitos de *Glassmorphism* e *Apple Human Interface Guidelines*.
+Diferente de sistemas administrativos tradicionais, este projeto une uma **Interface Premium (Apple-Like)** com uma **Arquitetura Serverless** robusta, garantindo segurança, performance e atualizações em tempo real.
 
-O objetivo foi simular a criação de um **SaaS (Software as a Service)** completo, desde a concepção da marca até a implementação do código, focando em performance, acessibilidade e design responsivo.
+O sistema opera como um **SaaS (Software as a Service)** funcional, com controle total de acesso via RLS (Row Level Security), gestão financeira e comunicação instantânea entre síndico e moradores.
 
 ## ✨ Destaques da Interface (Premium UI)
 
-O diferencial deste projeto é a interface "Apple-Like", construída do zero com CSS puro (sem frameworks de UI):
+O front-end foi construído sem frameworks de UI, focando em CSS puro de alta performance:
 
-* **💎 Glassmorphism Real:** Uso intensivo de `backdrop-filter: blur()` para criar camadas de vidro fosco, sombras coloridas difusas e bordas de luz.
-* **📱 Dashboard Mobile-First:** Uma barra lateral inteligente que se transforma em um menu horizontal "estilo Instagram" em dispositivos móveis.
-* **🎨 Tipografia & Cores:** Uso da fonte *Plus Jakarta Sans* com tracking ajustado (letter-spacing negativo) para uma leitura moderna e elegante.
-* **✨ Micro-interações:** Cards que flutuam ao passar o mouse, botões com efeito "glow" e transições suaves entre páginas.
+* **💎 Glassmorphism Real:** Uso intensivo de `backdrop-filter` para criar camadas de vidro fosco e profundidade.
+* **📱 Dashboard Mobile-First:** Tabelas que se transformam em *Cards* responsivos e menus adaptáveis.
+* **🎨 Design System:** Paleta de cores consistente, tipografia *Plus Jakarta Sans* e micro-interações refinadas.
 
-## 🛠️ Tecnologias & Arquitetura
+## ⚙️ Arquitetura & Backend (Supabase)
 
-O projeto foi construído utilizando a "Tríade Web" em sua forma mais pura para garantir performance máxima:
+O projeto deixou de ser apenas visual e agora conta com um backend poderoso:
 
-* **HTML5 Semântico:** Estrutura otimizada para SEO e Acessibilidade.
-* **CSS3 Moderno:** Variáveis (`:root`), Grid Layout, Flexbox e Animações 3D (`perspective`).
-* **JavaScript (Vanilla):** Lógica de interação leve, sem dependência de bibliotecas pesadas.
-* **Assets:** FontAwesome 6 (Ícones) e Imagens otimizadas em WebP.
+* **🔥 Database (PostgreSQL):** Dados relacionais estruturados.
+* **🛡️ Segurança (RLS):** Políticas de acesso a nível de linha (Ex: Morador só vê o que é permitido; Síndico vê tudo).
+* **📡 Realtime:** O Dashboard atualiza instantaneamente (sem refresh) quando novas ocorrências ou reservas são criadas.
+* **🔐 Autenticação:** Fluxo completo de Login, Cadastro e Recuperação de Senha (Magic Links).
+
+## 🚀 Funcionalidades Ativas
+
+1.  **Dashboard Inteligente:** KPIs de saldo, unidades e ocorrências atualizados em tempo real.
+2.  **Gestão de Ocorrências:**
+    * Moradores abrem chamados.
+    * Síndicos visualizam detalhes e gerenciam status.
+    * *Permissões:* Apenas Admins/Donos podem excluir registros.
+3.  **Sistema de Reservas:**
+    * Calendário visual com bloqueio automático de datas já ocupadas.
+    * Validação anti-conflito direto no banco de dados.
+4.  **Controle Financeiro (Caixa):**
+    * Extrato público para transparência.
+    * Saldo protegido e gestão de entradas/saídas restrita a administradores.
+5.  **Diretório de Moradores:**
+    * Listagem completa com busca e gestão de status (Em dia / Inadimplente).
+
+## 🛠️ Stack Tecnológica
+
+A "Tríade Web" moderna:
+
+* **Frontend:** HTML5 Semântico, CSS3 (Variables, Grid, Flex), JavaScript (ES6+ Modules).
+* **Backend as a Service:** Supabase (Postgres, Auth, Storage, Edge Functions).
+* **Assets:** FontAwesome 6, Google Fonts.
 
 ## 📂 Estrutura do Projeto
 
 ```text
 /
 ├── src/
-│   ├── about/          # Página "Sobre Nós" (Storytelling)
-│   ├── auth/           # Fluxo de Autenticação (Login, Register, Recover)
-│   ├── dashboard/      # Painel do Síndico (Layout em Ilha)
-│   ├── imagens/        # Assets visuais
-│   ├── global.css      # Design System (Variáveis e Resets)
-│   ├── index.css       # Estilos da Landing Page
-│   └── index.html      # Home (Vitrine do Produto)
+│   ├── about/          # Página Institucional
+│   ├── auth/           # Fluxo de Autenticação Completo
+│   ├── dashboard/      # Aplicação Principal (Lógica + UI)
+│   ├── services/       # Camada de Integração (Supabase Client)
+│   ├── imagens/        # Assets Otimizados
+│   ├── global.css      # Design System
+│   └── index.html      # Landing Page
 └── README.md           # Documentação
-/
-```
-
-👨‍💻 Nota<br>
-Embora o site utilize uma linguagem institucional ("Nós", "Nossa Equipe") para simular a autoridade de uma empresa real, este projeto foi idealizado, desenhado e codificado inteiramente por uma única pessoa.
-
-Eduardo Bruscagim<br>
-
-* Product Design (UI/UX)<br>
-* Front-end Engineering<br>
-* Backend Architecture (Em breve)
-
