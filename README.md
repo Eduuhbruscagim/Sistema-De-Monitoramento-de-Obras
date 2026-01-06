@@ -66,3 +66,11 @@ A "Tríade Web" moderna:
 │   ├── global.css      # Design System
 │   └── index.html      # Landing Page
 └── README.md           # Documentação
+```
+<div align="center">
+
+Idealizado e Desenvolvido por Eduardo Bruscagim
+
+Product Design • Frontend Engineering • Backend Architecture
+
+</div>
