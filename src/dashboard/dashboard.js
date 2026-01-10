@@ -441,8 +441,8 @@ const UI = {
   async renderizarAtividadesRecentes() {
     if (!this.elements.recentActivities) return;
 
-    // SKELETON: Atividades Recentes (Máximo 2 itens, compatível com limite real)
-    this.elements.recentActivities.innerHTML = Array(2)
+    // SKELETON: Atividades Recentes (Minimalista: 1 item apenas)
+    this.elements.recentActivities.innerHTML = Array(1)
       .fill(0)
       .map(
         () => `
@@ -567,8 +567,8 @@ const UINotifications = {
   },
 
   async render() {
-    // SKELETON: Notificações (Reduzido para 3 itens para não poluir)
-    this.list.innerHTML = Array(3)
+    // SKELETON: Notificações (Minimalista: 1 item)
+    this.list.innerHTML = Array(1)
       .fill(0)
       .map(
         () => `
@@ -671,13 +671,13 @@ const UIReserva = {
     if (!this.lista || State.carregandoReservas) return;
     State.carregandoReservas = true;
 
-    // SKELETON: Tabela Reservas (Reduzido para 3 linhas)
+    // SKELETON: Tabela Reservas (Minimalista: 1 linha)
     const souDono = isAdmin();
     const colCount = souDono ? 4 : 3;
 
     // Verifica se a tabela está vazia antes de inserir Skeleton para evitar piscar em reloads rápidos
     if (!this.lista.children.length) {
-      this.lista.innerHTML = Array(3)
+      this.lista.innerHTML = Array(1)
         .fill(0)
         .map(
           () => `
@@ -829,10 +829,10 @@ const UIOcorrencias = {
         }
       }
 
-      // SKELETON: Tabela Ocorrências (Reduzido para 3 linhas)
+      // SKELETON: Tabela Ocorrências (Minimalista: 1 linha)
       // Ajustado para refletir EXATAMENTE as colunas visíveis
       if (!this.lista.children.length) {
-        this.lista.innerHTML = Array(3)
+        this.lista.innerHTML = Array(1)
           .fill(0)
           .map(
             () => `
@@ -963,8 +963,8 @@ const UICaixa = {
   async carregarExtrato() {
     if (!this.listaHistorico) return;
 
-    // SKELETON: Tabela Caixa (Reduzido para 3 linhas)
-    this.listaHistorico.innerHTML = Array(3)
+    // SKELETON: Tabela Caixa (Minimalista: 1 linha)
+    this.listaHistorico.innerHTML = Array(1)
       .fill(0)
       .map(
         () => `
@@ -1106,10 +1106,10 @@ const UIMoradores = {
   },
 
   async carregar() {
-    // SKELETON: Tabela Moradores (Reduzido para 3 linhas)
+    // SKELETON: Tabela Moradores (Minimalista: 1 linha)
     // Isso evita que no mobile (onde cada linha é um card grande) a tela fique infinita
     if (this.tabela) {
-      this.tabela.innerHTML = Array(3)
+      this.tabela.innerHTML = Array(1)
         .fill(0)
         .map(
           () => `

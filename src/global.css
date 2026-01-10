@@ -14,13 +14,19 @@
     --bg-light: #f9fafb;
     --white: #ffffff;
 
-    /* Efeitos & Formas */
+    /* Efeitos & Formas (Mantendo as suas originais) */
     --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --radius: 12px;
-    /* Curvatura padrão Apple Modern */
 
-    /* Token de Transição Padrão */
-    --ease-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* --- APPLE PHYSICS ENGINE (Adicionado) --- */
+    /* MOLA SUAVE (Para Modais e Telas) */
+    --ease-spring: cubic-bezier(0.19, 1, 0.22, 1);
+
+    /* SNAP TÁTIL (Para Botões e Interações Rápidas) */
+    --ease-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* FLUIDEZ (Para mudanças de cor/opacidade) */
+    --ease-flow: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --------------------------------------------------------------------------
@@ -34,16 +40,13 @@
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- SCROLLBAR INVISÍVEL (ESTILO APP NATIVO) --- */
+/* --- SCROLLBAR INVISÍVEL --- */
 html {
     scroll-behavior: smooth;
-    /* Firefox */
     scrollbar-width: none;
-    /* IE e Edge antigos */
     -ms-overflow-style: none;
 }
 
-/* Chrome, Safari, Opera */
 ::-webkit-scrollbar {
     display: none;
 }
@@ -64,7 +67,49 @@ body {
     padding: 0 20px;
 }
 
-/* --- Botões (Componente Base) --- */
+/* --------------------------------------------------------------------------
+   4. FÍSICA INTERATIVA GLOBAL (CLEAN)
+   -------------------------------------------------------------------------- */
+
+/* --- BOTÕES E LINKS (Com Peso Físico) --- */
+/* Aplica a física suave, mas mantendo o visual original */
+button, .btn, .action-btn, .kpi-plus, .icon-btn, .btn-settings, a.menu-item {
+    transition:
+        transform 0.1s var(--ease-snappy),
+        background-color 0.2s var(--ease-flow),
+        box-shadow 0.2s var(--ease-flow),
+        color 0.2s linear;
+
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+
+/* O SEGREDO TÁTIL: Encolher ao clicar (Feedback Físico sem mudar cor) */
+button:active, .btn:active, .action-btn:active, .icon-btn:active, a.menu-item:active {
+    transform: scale(0.96) !important;
+}
+
+/* --- INPUTS & SELECTS (Levitação Sutil) --- */
+input, select, textarea, .glass-select, .input-wrapper {
+    /* Transição apenas de movimento e cor de fundo */
+    transition:
+        transform 0.2s var(--ease-snappy),
+        background-color 0.2s var(--ease-flow);
+    outline: none;
+}
+
+/* Quando foca: APENAS LEVITA. Sem borda azul, sem brilho extra. */
+.input-wrapper:focus-within,
+input:focus,
+select:focus,
+textarea:focus {
+    transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   5. COMPONENTES BASE (BOTÕES)
+   -------------------------------------------------------------------------- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -73,21 +118,20 @@ body {
     border-radius: 12px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s var(--ease-spring);
-    cursor: pointer;
     font-size: 0.95rem;
 }
 
 .btn-primary {
     background-color: var(--primary);
     color: var(--white);
+    /* Sombra original mantida */
     box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
     border: 1px solid transparent;
 }
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px);
+    transform: translateY(-2px); /* Flutua no hover */
     box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
 }
 
@@ -104,7 +148,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   4. HEADER & NAVEGAÇÃO (Legado mantido para fallback se necessário)
+   6. HEADER & NAVEGAÇÃO
    -------------------------------------------------------------------------- */
 header {
     position: fixed;
@@ -136,11 +180,15 @@ header.scrolled {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s var(--ease-snappy);
 }
 
 .logo:hover {
     transform: scale(1.02);
+}
+
+.logo:active {
+    transform: scale(0.96);
 }
 
 .logo-img {
@@ -160,7 +208,7 @@ nav a {
     color: var(--text-light);
     font-weight: 600;
     font-size: 0.95rem;
-    transition: color 0.2s;
+    transition: color 0.2s var(--ease-flow);
     position: relative;
 }
 
@@ -169,7 +217,7 @@ nav a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   5. MENU MOBILE & RODAPÉ
+   7. MENU MOBILE & RODAPÉ
    -------------------------------------------------------------------------- */
 .mobile-toggle {
     display: none;
@@ -208,14 +256,13 @@ footer {
 }
 
 /* --------------------------------------------------------------------------
-   6. RESPONSIVIDADE
+   8. RESPONSIVIDADE
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     .mobile-toggle {
         display: block;
     }
 
-    /* Fallback Drawer (caso não use o dock) */
     .nav-menu {
         display: block;
         position: fixed;
@@ -226,7 +273,7 @@ footer {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         padding: 40px;
-        transition: left 0.4s var(--ease-spring);
+        transition: left 0.5s var(--ease-spring);
         border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
 
